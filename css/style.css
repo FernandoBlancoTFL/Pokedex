@@ -1,0 +1,546 @@
+/* Estilos Normales (para móviles en vertical) */
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    background-color: #FFFFFF;
+
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* El contenedor ocupará al menos el 100% de la altura de la ventana */
+                       /* Se usa para que el footer se mantenga siempre en la parte inferior de la pantalla */
+                       /* También se necesita que el body sea un flex column, como se observa */
+}
+
+/* El contenedor principal de todo el layout */
+.wrapper {
+    display: flex;
+    flex-flow: column nowrap;
+    min-height: 100vh; /* El contenedor ocupará al menos el 100% de la altura de la ventana */
+                       /* Se usa para que el footer se mantenga siempre en la parte inferior de la pantalla */
+}
+
+
+.header, .aside, .main, .footer {
+    padding: 10px;
+}
+
+/* Estilo para el header */
+.header {
+    display: flex;
+    flex-flow: row wrap;
+    height: 100%; /* El header ocupa el 100% de altura según los elementos */
+    align-items: center;
+    background-color: #C70039;
+    color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    justify-content: center;
+}
+
+.header a {
+    display: inline-block;
+    overflow: hidden; /* Oculta cualquier parte de la imagen que sobresalga fuera del borde del enlace */
+    margin: 0;
+}
+
+.header img {
+    display: block; /* Asegura que la imagen no tenga márgenes o espacios adicionales */
+    width: 220px;
+    height: 100px;
+    padding-bottom: 8px;
+}
+
+/* Estilo para el cuadro de búsqueda dentro del header */
+.search-container {
+    display: flex; /* Utiliza Flexbox para alinear el input y el botón */
+    align-items: center;
+    padding-bottom: 10px;
+    /* width: 100% */
+    width: 415px;
+}
+
+.search-input {
+    padding: 8px 12px;
+    border: 2px solid #FFCC00;
+    border-radius: 4px 0 0 4px;
+    outline: none; /* Elimina el outline predeterminado del navegador */
+    font-size: 16px;
+    font-family: 'Roboto', sans-serif;
+    background-color: #F6F6F6;
+    color: #333;
+    width: 100%;
+}
+
+.search-input::placeholder {
+    color: #666;
+}
+
+.search-button {
+    padding: 8px 16px;
+    background-color: #FFCC00;
+    color: #333;
+    border: 2px solid #FFCC00;
+    border-left: none;
+    border-radius: 0 4px 4px 0;
+    cursor: pointer;
+    font-size: 16px;
+    font-family: 'Roboto', sans-serif;
+}
+
+.search-button:hover {
+    background-color: #FFC000;
+}
+
+.search-button:active {
+    background-color: #E6B800;
+    transform: translateY(1px);
+}
+
+/* Estilo para el nav */
+.nav-menu {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    background-color: #333;
+    padding: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    margin-bottom: 15px;
+    position: sticky;
+    top: 0px;
+    z-index: 1000;
+}
+
+.nav-menu li {
+    list-style: none;
+    margin: 5px;
+}
+
+/* Estilo para los enlaces */
+.nav-menu a {
+    display: inline-block;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 20px;
+    transition: background-color 0.3s ease;
+}
+
+.nav-menu a:hover {
+    background-color: #777;
+}
+
+/* Colores de fondo para cada tipo de Pokémon */
+.fire {
+    background: linear-gradient(to right, #fdd835, #f44336);
+}
+
+.water {
+    background: linear-gradient(to right, #03a9f4, #0288d1);
+}
+
+.grass {
+    background: linear-gradient(to right, #8bc34a, #388e3c);
+}
+
+.electric {
+    background: linear-gradient(to right, #ffeb3b, #fbc02d);
+    color: black;
+}
+
+.custom-list li .electric{
+    color: black;
+}
+
+.normal {
+    background: linear-gradient(to right, #e0e0e0, #bdbdbd);
+}
+
+.flying {
+    background: linear-gradient(to right, #82d0f4, #1e88e5);
+}
+
+.poison {
+    background: linear-gradient(to right, #b877c4, #9c27b0);
+}
+
+.steel {
+    background: linear-gradient(to right, #b0bec5, #546e7a);
+}
+
+.fairy {
+    background: linear-gradient(to right, #f8bbd0, #ab47bc);
+}
+
+.bug {
+    background: linear-gradient(to right, #92a510, #3e721d);
+}
+
+.dark {
+    background: linear-gradient(to right, #525252, #000000);
+    color: white;
+}
+
+.dragon {
+    background: linear-gradient(to right, #5c2e91, #b896f5);
+}
+
+.fighting {
+    background: linear-gradient(to right, #c22e28, #8b0000);
+    color: white;
+}
+
+.ghost {
+    background: linear-gradient(to right, #705898, #333367);
+    color: white;
+}
+
+.ground {
+    background: linear-gradient(to right, #a1871f, #705848);
+}
+
+.ice {
+    background: linear-gradient(to right, #4fc3f7, #00bcd4);
+}
+
+.psychic {
+    background: linear-gradient(to right, #e91e63, #ff6f61);
+}
+
+.rock {
+    background: linear-gradient(to right, #b69e31, #8b5a2b);
+}
+
+.dragon {
+    background: linear-gradient(to right, #7038F8, #705898);
+    color: white;
+}
+
+.fighting {
+    background: linear-gradient(to right, #C03028, #A52A2A);
+}
+
+.psychic {
+    background: linear-gradient(to right, #F85888, #FF69B4);
+}
+
+.teamColor {
+    background: linear-gradient(to right, #ffffff, #cfcece);
+}
+
+.custom-list li a:hover {
+    opacity: 0.8; /* Transparencia al pasar por encima */
+}
+
+.content {
+    display: flex;
+    flex-flow: row wrap;
+}
+
+/* Estilo para el main */
+.main {
+    display: flex;
+    flex-flow: row wrap;
+    margin: 20px 0 20px 0;
+    padding: 0 15px 15px 15px;
+    background-color: #FFFFFF;
+    height: 100%;
+    order: 2; /* El main se coloca después del aside */
+    flex: 1 100%; /* El main también ocupa todo el ancho del contenedor */
+    justify-content: center;
+}
+
+.pokemons {
+    display: flex;
+    flex-flow: row wrap;
+    gap: 30px;
+    padding: 0 10px 0 10px;
+    height: 100%;
+    justify-content: center;
+    
+    /* border: 1px solid rgb(200, 26, 26); */ /* Borde para identificar el contenedor */
+}
+
+.pokemon {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: white;
+    box-shadow: 5px 4px 8px rgba(0, 0, 0, 0.2);
+    /* width: 45%; */
+    box-sizing: border-box;
+    position: relative; /* Para asegurar que el zoom se aplique correctamente */
+
+    flex: 1 1 170px; /* Ajusta las cards para que todas tengan el mismo tamaño mínimo */
+    max-width: 170px; /* Define el ancho máximo de las cards */
+}
+
+.pokemon img {
+    max-width: 100%;
+    height: auto; /* Mantiene la proporción de la imagen */
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 10px;
+    cursor: pointer;
+}
+
+.pokemon p {
+    margin: 10px 0;
+}
+
+/* Estilo para el primer párrafo que se colocará en la parte superior derecha */
+#idnum {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: rgba(255, 255, 255, 0.7);
+    padding: 5px;
+    border-radius: 5px;
+    z-index: 1;
+    margin: 0;
+}
+
+.types {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    margin-top: auto;
+}
+
+.types p {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    text-align: center;
+    margin: 2px 5px;
+}
+
+/* Estilo para el footer */
+.footer {
+    background-color: #333333;
+    color: #FFFFFF;
+    height: 20px; /* Altura del footer, cambiar si se agregan mas elementos */
+    text-align: center;
+
+    order: 4;
+    margin-top: auto; /* Con esto hago que el footer siempre se mantenga abajo */
+    /* Tener en cuenta que para que esto sea posible, se tiene que modificar el body */
+    /* y el wrapper (ver los cambios agregados al body y wrapper) */
+}
+
+/* Oculta los tipos de pokemon por defecto */
+.extra-content {
+    display: none;
+}
+
+.pokemonTeam {
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+    justify-content: center;
+
+    flex: 1 100%;
+    order: 1;
+    position: sticky;
+    top: 10px;
+    margin: 10px;
+    border-radius: 20px;
+    background-image: url('https://cdn.vectorstock.com/i/1000v/03/09/pokeball-icon-sign-seamless-pattern-on-a-gray-vector-11290309.jpg');
+    background-color: #e0f7fa;
+    box-shadow: 5px 4px 8px rgba(0, 0, 0, 0.2);
+    height: 100%;
+    text-align: center;
+    font-size: 16px;
+    gap: 10px;
+
+    padding: 10px 10px;
+    z-index: 1000;
+}
+
+.pokemonTeam img {
+    margin-right: 13px;
+}
+
+.pokemonTeam p {
+    display: block;
+    margin: 0;
+    color: black;
+}
+
+.pokemon-entry {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 43%;
+    padding: 0 10px;
+    border-radius: 10px;
+}
+
+.pkm-img {
+    width: 40px;
+    height: 40px;
+}
+
+.pokemon-gif {
+    width: 50px;
+    height: 50px;
+    /* margin-left: auto; */
+}
+
+#pokemon-total {
+    display: inline-block;
+    width: 100%;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: white;
+}
+
+.round-button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+    margin: 0 30px;
+}
+
+.round-button:hover {
+    background-color: #45a049;
+}
+
+.round-button:active {
+    background-color: #3e8e41;
+}
+
+
+
+/* Responsive ============================================================== */
+
+/* Móviles en orientación horizontal */
+@media (min-width: 480px) {
+    .header {
+        flex-direction: column;
+    }
+
+    .search-button {
+        background-color: red;
+    }
+
+    .pokemons {
+        max-width: 500px;
+    }
+
+    .pokemon {
+        /* width: 35%; */
+        flex: 1 1 190px;
+        max-width: 190px;
+    }
+
+    .pokemonTeam {
+        font-size: 18px;
+    }
+
+    .round-button {
+        margin: 0 20%;
+    }
+}
+
+/* Tablets en orientación vertical */
+@media (min-width: 768px) {
+    .header{
+        flex-direction: row;
+        justify-content: space-between;
+        padding: 0px 30px;
+    }
+
+    .pokemonTeam {
+        flex: 1; /* El aside ocupa 1 parte del espacio disponible según el flexbox */
+        position: sticky; /* Para que siga por la pantalla al usuario */
+        top: 20px; /* Fija el aside al tope de la página al hacer scroll */
+        font-size: 18px;
+    }
+
+    .main {
+        flex: 3;
+    }
+
+    .search-button {
+        background-color: green;
+    }
+
+    .pokemons {
+        max-width: 70%;
+    }
+
+    .pokemon {
+        /* width: 30%; */
+        flex: 1 1 200px;
+        max-width: 200px;
+    }
+
+    .pokemon-entry {
+        width: 100%;
+        padding: 10px 5px;
+    }
+
+    .extra-content {
+       display: block; /* Hace visible el/los tipos de los pokemones en las cards */
+    }
+}
+
+/* Tablets en orientación vertical o escritorios normales */
+@media (min-width: 1024px) {
+    .search-button {
+        background-color: blue;
+    }
+
+    .pokemon {
+        /* width: 25%; */
+        overflow: hidden; /* Oculta cualquier contenido que se desborde durante el zoom */
+        transition: transform 0.3s ease-in-out; /* Transición suave para el zoom */
+        flex: 1 1 210px;
+        max-width: 210px;
+    }
+
+    .pokemon:hover {
+        transform: scale(1.1); /* Escala la tarjeta al 110% */
+    }
+
+    .pokemon img {
+        width: 80%;
+        display: block; /* Asegura que la imagen sea un bloque para el ajuste del ancho */
+        margin: 0 auto; /* Centra la imagen dentro de la tarjeta */
+    }
+
+    .pokemon-entry {
+        padding: 10px 10px;
+        margin: 0 10px;
+    }
+
+}
+
+/* Escritorios muy anchos */
+@media (min-width: 1200px) {
+    .search-button {
+        background-color: #FFCC00;
+    }
+
+    .pokemons {
+        width: 50%;
+    }
+
+    .pokemon {
+        flex: 1 1 240px;
+        max-width: 28%;
+    }
+
+    .pokemon-entry {
+        width: 80%;
+    }
+
+}
+

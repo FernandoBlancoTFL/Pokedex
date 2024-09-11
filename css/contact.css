@@ -1,0 +1,32 @@
+.main {
+    flex-flow: column nowrap;
+    padding: 0;
+    background-color: #FFFFFF;
+    height: 60vh;
+    justify-content: center;
+    align-items: center;
+}
+
+.googleMaps {
+    display: flex; /* Utiliza flexbox para manejar el tamaño interno */
+    border: 2px solid rgb(55, 26, 200);
+    width: 80%;
+    height: 100%;
+}
+
+/* Hago que el mapa y sus elementos hijos tengan un tamaño flexible */
+gmp-map {
+    width: 100%;
+    height: 100%;
+}
+
+gmp-advanced-marker {
+    width: auto; /* Auto ajusta el tamaño según el contenido */
+    height: auto;
+}
+
+
+
+
+
+

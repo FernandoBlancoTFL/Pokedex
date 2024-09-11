@@ -1,0 +1,292 @@
+.content {
+    flex-flow: column nowrap;
+}
+
+.pkmTeam {
+    display: none; /* Oculta el aside por defecto */
+    order: 1;   /* Se posiciona por encima del main */
+
+    margin: 10px;
+    margin-top: 0;
+    border-radius: 20px;
+    background-color: #444;
+    box-shadow: 5px 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    font-size: 16px;
+    gap: 10px;
+    height: 100%;
+
+    padding: 10px 10px;
+    padding-top: 7px;
+    z-index: 1000;
+}
+
+.pkmTeam.visible { /* Clase para que se haga visible */
+    display: block; 
+    position: sticky;
+    top: 10px;
+}
+
+.pkmTeam h3 {
+    margin: 0;
+    padding: 2px;
+    background: linear-gradient(to right, #f0f0f0, #cccccc);
+    color: #333333;
+    border-radius: 10px;
+}
+
+.pkmTeamContainer {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+
+    gap: 10px;
+    margin: 10px 0;
+    
+    /* border: 1px solid rgb(200, 26, 26); */
+}
+
+.teamColorTitle{
+    margin: 0;
+    color: white;
+    margin: 0 30px;
+    margin-bottom: 5px;
+}
+
+.pkmDetails {
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+    justify-content: center;
+
+    flex: 1 100%;
+    order: 3;
+    margin: 10px;
+    border-radius: 20px;
+    background-image: url('https://cdn.vectorstock.com/i/1000v/03/09/pokeball-icon-sign-seamless-pattern-on-a-gray-vector-11290309.jpg');
+    background-color: #e0f7fa;
+    box-shadow: 5px 4px 8px rgba(0, 0, 0, 0.2);
+    height: 100%;
+    text-align: center;
+    font-size: 16px;
+    gap: 10px;
+
+    padding: 10px 10px;
+    z-index: 1000;
+}
+
+.pkmDetails {
+    display: none; /* Oculta el aside por defecto */
+}
+
+.pkmDetails.visible {
+    display: block;
+}
+
+.image-container {
+    width: 200px;
+    margin: 20px auto;
+    overflow: hidden;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.image-container img {
+    width: 100%;
+    display: block;
+    border-radius: 15px;
+    transition: transform 0.3s ease-in-out;
+}
+
+.image-container:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+.image-container:hover img {
+    transform: scale(1.05);
+}
+
+.main {
+    flex-flow: column nowrap;
+    order: 2;
+    margin-top: 0;
+}
+
+.pokemons {
+    align-self: center;
+}
+
+.info-button {
+    background-color: #1E90FF;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    margin-top: 5px;
+    cursor: pointer;
+
+    align-self: center;
+    width: 75%;
+}
+
+.info-button:hover {
+    background-color: #1C86EE;
+}
+
+
+/* Responsive ============================================================== */
+
+/* Móviles en orientación horizontal */
+@media (min-width: 480px) {
+    .header {
+        flex-direction: column;
+    }
+
+    .search-button {
+        background-color: red;
+    }
+
+    .pokemons {
+        max-width: 500px;
+    }
+
+    .pokemon {
+        /* width: 35%; */
+        flex: 1 1 190px;
+        max-width: 190px;
+    }
+
+    .pokemonTeam {
+        font-size: 18px;
+    }
+
+    .teamColorTitle{
+        margin: 0 20%;
+    }
+    
+}
+
+/* Tablets en orientación vertical */
+@media (min-width: 768px) {
+    .header{
+        flex-direction: row;
+        justify-content: space-between;
+        padding: 0px 30px;
+    }
+
+    .content {
+        flex-flow: row nowrap;
+    }
+
+    .pkmTeam {
+        display: block;
+        order: 1;
+        flex: 2;
+        font-size: 18px;
+    }
+
+    .teamColorTitle{
+        margin: 0;
+    }
+
+    .main {
+        order: 2;
+        flex: 4;
+    }
+
+    .pkmDetails {
+        display: block;
+        order: 3;
+        flex: 2;
+        font-size: 18px;
+    }
+
+    .search-button {
+        background-color: green;
+    }
+
+    .pokemons {
+        /* max-width: 70%; */
+        max-width: 100%;
+    }
+
+    .pokemon {
+        flex: 1 1 40%;
+        max-width: 40%;
+    }
+
+    .pokemon-entry {
+        width: 100%;
+        padding: 10px 5px;
+    }
+
+    .extra-content {
+       display: block; /* Hace visible el/los tipos de los pokemones en las cards */
+    }
+}
+
+/* Tablets en orientación vertical o escritorios normales */
+@media (min-width: 1024px) {
+    .search-button {
+        background-color: blue;
+    }
+
+    .pokemon {
+        /* width: 25%; */
+        overflow: hidden; /* Oculta cualquier contenido que se desborde durante el zoom */
+        transition: transform 0.3s ease-in-out; /* Transición suave para el zoom */
+
+        flex: 1 1 35%;
+        max-width: 35%;
+    }
+
+    .pokemon:hover {
+        transform: scale(1.1); /* Escala la tarjeta al 110% */
+    }
+
+    .pokemon img {
+        width: 80%;
+        display: block;
+        margin: 0 auto;
+    }
+
+    .pokemon-entry {
+        padding: 10px 10px;
+    }
+
+}
+
+/* Escritorios muy anchos */
+@media (min-width: 1200px) {
+    .search-button {
+        background-color: #FFCC00;
+    }
+
+    .pokemons {
+        max-width: 100%;
+        width: 100%;
+    }
+
+    .pkmTeam {
+        opacity: 0;
+    }
+
+    .pkmDetails {
+        opacity: 0;
+    }
+
+    .pokemon {
+        flex: 1 1 28%;
+        max-width: 28%;
+    }
+
+    .pokemon-entry {
+        width: 80%;
+    }
+
+}
+
+
+

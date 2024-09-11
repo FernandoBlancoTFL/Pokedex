@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Pokemon</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' type='text/css' media='screen' href='css/style.css'>
+    <link rel='stylesheet' type='text/css' media='screen' href='css/contact.css'>
+    
+    <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCbOlqUZRniaWbnJnwxD81hGUPYnBELCyA&callback=console.debug&libraries=maps,marker&v=beta"></script>
+
+</head>
+<body>
+    <div class="wrapper">
+
+        <header class="header">
+            <a href="index.html">
+                <img src="/img/Pokédex_logo.png" alt="Logo">
+            </a>
+            <h1>Pokédex Pokémon</h1>
+        </header>
+
+        <section class="content">
+
+            <aside class="aside">
+                <ul class="custom-list">
+                    <p>Tipos:</p>
+                    <li><a class="fire" href="index.html">Fuego</a></li>
+                    <li><a class="water" href="index.html">Agua</a></li>
+                    <li><a class="grass" href="index.html">Planta</a></li>
+                    <li><a class="electric" href="index.html">Eléctrico</a></li>
+                    <li><a class="normal" href="index.html">Normal</a></li>
+                    <li><a class="steel" href="contact.html">Contacto Nuevo</a></li>
+                </ul>
+            </aside>
+
+            <main class="main">
+
+                <section class="contactInfo">
+                    <h2>Contacto</h2>
+                </section>
+
+                <section class="googleMaps">
+
+                    <gmp-map center="-34.922883333333,-57.956316666667" zoom="15" map-id="map">
+                        <gmp-advanced-marker position="-34.922883333333,-57.956316666667" title="Mi localizacion"></gmp-advanced-marker>          
+                    </gmp-map>
+
+                </section>
+
+            </main>
+        </section>
+        
+        <footer class="footer">
+            &copy; 2024 Desarrollado por Fernando Blanco & Ivan Luthje
+        </footer>
+    </div>    
+</body>
+</html>

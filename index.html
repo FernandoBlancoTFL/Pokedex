@@ -6,18 +6,20 @@
     <title>Pokédex Pokémon</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <link rel="icon" href="/img/pokeball.png" type="image/png">
+    
     <link rel="stylesheet" href="/css/style.css" type="text/css" media="screen">
+    <link rel="stylesheet" href="/css/searchResult.css" type="text/css" media="screen">
+    <link rel="stylesheet" href="/css/teamHistory.css" type="text/css" media="screen">
     
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src='js/scripts.js'></script>
-    <script src='js/webSearch.js'></script>
-</head>
 
+</head>
 <body>
     <div class="wrapper">
 
         <header class="header">
-            <a href="index.html">
+            <a class="logoClass">
                 <img src="/img/Pokédex_logo.png" alt="Logo">
             </a>
             <div class="search-container">
@@ -33,17 +35,26 @@
             <li><a class="electric" href="#electric">Eléctrico</a></li>
             <li><a class="normal" href="#normal">Normal</a></li>
             <li><a class="steel" href="survey.html">Encuesta</a></li>
+            <li><a class="steel" href="teamHistory.html">Historial</a></li>
         </nav>
 
         <section class="content">
-            <aside id="teamSelected" class="pokemonTeam" style="display: none;">
-                <p id="pokemon-total" class="teamColorTitle">Pokemones seleccionados: 0</p>
+            
+            <aside id="teamSelected" class="pkmTeam">
+                <section class="titleSection">
+                    <h3>Equipo pokemon <p id="pkm-total" class="teamColorTitle">Pokemones seleccionados: 0</p></h3>
+                </section>
+                <section id="pkmTeamContainer" class="pkmTeamContainer">
+                    <!-- <p id="pkm-total" class="teamColorTitle">Pokemones seleccionados: 0</p> -->
+                    <section class="btnSection"></section>
+                </section>
             </aside>
 
             <main class="main">
 
+                <h2>Resultados de búsqueda:</h2>
                 <section class="pokemons" id="pkms-container">
-    
+
                     <div class="pokemon">         
                         <img src="/img/1.png" alt="Bulbasaur">
                         <p id="idnum">#001</p>
@@ -52,6 +63,7 @@
                             <p class="grass">Planta</p>
                             <p class="poison">Veneno</p>
                         </div>
+                        <button class="info-button">+ info</button>
                     </div>
                     <div class="pokemon">
                         <img src="/img/2.png" alt="Ivysaur">
@@ -61,6 +73,7 @@
                             <p class="grass">Planta</p>
                             <p class="poison">Veneno</p>
                         </div>
+                        <button class="info-button">+ info</button>
                     </div>
                     <div class="pokemon">
                         <img src="/img/3.png" alt="Venusaur">
@@ -70,6 +83,7 @@
                             <p class="grass">Planta</p>
                             <p class="poison">Veneno</p>
                         </div>
+                        <button class="info-button">+ info</button>
                     </div>
                     <div class="pokemon">      
                         <img src="/img/4.png" alt="Charmander">
@@ -78,6 +92,7 @@
                         <div class="types extra-content">
                             <p class="fire">Fuego</p>
                         </div>
+                        <button class="info-button">+ info</button>
                     </div>
                     <div class="pokemon">
                         <img src="/img/5.png" alt="Charmeleon">
@@ -86,6 +101,7 @@
                         <div class="types extra-content">
                             <p class="fire">Fuego</p>
                         </div>
+                        <button class="info-button">+ info</button>
                     </div>
                     <div class="pokemon">
                         <img src="/img/6.png" alt="Charizard">
@@ -95,15 +111,27 @@
                             <p class="fire">Fuego</p>
                             <p class="flying">Volador</p>
                         </div>
+                        <button class="info-button">+ info</button>
                     </div>
                             
                 </section>
                 
             </main>
+
+            <aside id="pokemonDetails" class="pkmDetails">
+                <section id="pkmDetailContainer" class="pkmDetailContainer"></section>
+            </aside>
+
+        </section>
+
+        <section class="paginationContainer" id="paginationContainer">
+            <!-- <button class="page-btn prev" aria-label="Previous Page">&laquo; Anterior</button> -->
+            <section class="pagination" id="pagination"></section>
+            <!-- <button class="page-btn next" aria-label="Next Page">Siguiente &raquo;</button> -->
         </section>
         
         <footer class="footer">
-            &copy; 2024 Desarrollado por Fernando Blanco & Ivan Luthje
+            &copy; 2024 Desarrollado por Fernando Blanco
         </footer>
     </div>    
 </body>

@@ -1,84 +1,134 @@
-$(document).ready(function() {  
+$(document).ready(function () {
     let pokemonCount = 0;
+    let pokemonCountDetails = 0;
     let selectedPokemons = [];
+    let selectedPokemonsDetails = [];
     let pokemonArray = [];
     let nav = $('#types_nav');
+    let flag = 0;
 
-    // Función para cargar los Pokémon de la primera generación.
-    function cargarPokemonesPrimeraGeneracion() {
-        $.ajax({
-            url: 'https://pokeapi.co/api/v2/pokemon?limit=151', //`https://pokeapi.co/api/v2/generation/${generationId}/`
-            type: 'GET',
-            dataType: 'json',
-            success: function(data) {
-                $('.pokemons').empty();  // Limpia cualquier card existente.
+    let pokemonArray2 = [];  // Guardar todos los Pokémon del tipo seleccionado
+    let currentPage = 1;    // Página actual para paginación
+    let Pages = 0;
+    const pokemonsPerPage = 10;  // Cantidad de Pokémon por página
 
-                const pokemonDetailsPromises = data.results.map(pokemon => {
-                    return $.ajax({
-                        url: pokemon.url,
-                        type: 'GET',
-                        dataType: 'json'
-                    });
-                });
+    // Búsqueda de la vista searchResult
 
-                Promise.all(pokemonDetailsPromises)
-                    .then(detailsArray => {
-                        detailsArray.sort((a, b) => a.id - b.id);  // Ordena los Pokémon por ID.
-                        pokemonArray = detailsArray;
+    const $searchButton = $('.search-button');
+    const $logoButton = $('.logoClass');
+    const $searchInput = $('.search-input');
+    const $pokemonContainer = $('.pokemons');
+    const $fireButton = $('.fire');
+    const $waterButton = $('.water');
+    const $grassButton = $('.grass');
+    const $electricButton = $('.electric');
+    const $normalButton = $('.normal');
 
-                        detailsArray.forEach(details => {
-                            const card = `
-                                <div class="pokemon">
-                                    <img class="pokemon-img" src="${details.sprites.other['official-artwork'].front_default}" alt="${details.name}">
-                                    <p id="idnum">#${details.id.toString().padStart(3, '0')}</p>
-                                    <p>${details.name.charAt(0).toUpperCase() + details.name.slice(1)}</p>
-                                    <div class="types extra-content">
-                                        ${details.types.map(type => `<p class="${type.type.name}">${type.type.name.charAt(0).toUpperCase() + type.type.name.slice(1)}</p>`).join('')}
-                                    </div>
-                                </div>
-                            `;
-                            // Agrega la card al contenedor principal.
-                            $('.pokemons').append(card);
-                        });
-                    })
-                    .catch(error => {
-                        console.log('Error al obtener detalles de los Pokémon:', error);
-                    });
-            },
-            error: function() {
-                console.log('Error al obtener los Pokémon de la primera generación.');
+    $fireButton.on('click', function () {
+        searchByType('fire');
+    });
+
+    $waterButton.on('click', () => searchByType('water'));
+    $grassButton.on('click', () => searchByType('grass'));
+    $electricButton.on('click', () => searchByType('electric'));
+    $normalButton.on('click', () => searchByType('normal'));
+
+    // Búsqueda desde otra vista HTML
+    const searchTerm = sessionStorage.getItem('searchTerm');
+
+    if (searchTerm !== null && searchTerm.trim() !== "") {
+        console.log("El contenido del session storage es: " + searchTerm);
+
+        clearCards();
+        clearDetails();
+
+        if (isNaN(searchTerm)) {
+            if (isValidType(searchTerm)) {
+                searchByType(searchTerm);
+            } else {
+                searchByName(searchTerm);
             }
-        });
+        } else {
+            searchById(searchTerm);
+        }
+
+        sessionStorage.removeItem('searchTerm'); // Borro el contenido del sessionStorage 
+    } else{
+        flag = 1;
+        loadFirstGenPokemons();
     }
 
-    // Delegación de eventos para manejar el click en imágenes cargadas dinámicamente.
+    if(!searchTerm){
+        //alert('No se encontró ningún término de búsqueda.');
+        //window.history.back();                                    //*REVISAR*
+        //return;
+    }
+
+    // ----------------------------------  Eventos  ---------------------------------- //
+
+    // Evento de hacer click en el botón de búsqueda
+    $searchButton.on('click', function () {
+        const searchTerm = $searchInput.val().trim().toLowerCase();
+
+        if (!searchTerm) {
+            alert('Por favor, ingresa un nombre, ID o tipo de Pokémon.');
+            return;
+        }
+
+        clearCards();
+        clearDetails();
+
+        if (isNaN(searchTerm)) {
+            // Si no es un número, buscar por nombre o tipo
+            if (isValidType(searchTerm)) {
+                searchByType(searchTerm);
+            } else {
+                searchByName(searchTerm);
+            }
+        } else {
+            searchById(searchTerm);
+        }
+    });
+
+    // Evento de hacer click en el logo
+    $logoButton.on('click', function () {
+        flag = 1;
+        loadFirstGenPokemons();
+    });
+
+    // Delegación de eventos para manejar el click en cards cargadas dinámicamente.
     $(document).on('click', 'div.pokemon img', function() {
         let $this = $(this);
         let $pokemon = $this.closest('.pokemon');
         let pokemonName = $pokemon.find('p').eq(1).text();
-        let pokemonImg = $this.attr('src'); 
+        let pokemonImg = $this.attr('src');
         let pokemonIdString = $pokemon.find('#idnum').text();
         let pokemonId = pokemonIdString.replace('#', '');
+        let $pkmTeamName = $('#pkmName');
 
         // Verifica si el Pokémon ya está seleccionado.
         if ($this.hasClass('selected')) {
             $this.removeClass('selected').css('opacity', '1');
             $pokemon.css('background-color', '');
             pokemonCount--;
+
             if (pokemonCount == 0) nav.css('position', 'sticky');
-            
-            // Elimina al Pokémon del arreglo de seleccionados.
+
+            // Devuelve un array con todos los pokes, menos el poke con ese nombre
             selectedPokemons = selectedPokemons.filter(pokemon => pokemon.name !== pokemonName);
         } else{
             if(pokemonCount <= 5){
                 $this.addClass('selected').css('opacity', '0.6');
                 $pokemon.css('background-color', '#f0f0f0');
-                nav.css('position', 'relative'); // El nav no sigue al usuario por pantalla
-                pokemonCount++;
+
+                if(pokemonCountDetails > 0){
+                    $('#teamSelected').css('position', 'relative');
+                }
+                nav.css('position', 'relative');
                 
-                // Si el pokemon no está en la lista (busca por id), agrega el nombre, la imagen y el ID
-                if (!selectedPokemons.some(pokemon => pokemon.id === pokemonId)) {
-                    selectedPokemons.push({name: pokemonName, img: pokemonImg, id: pokemonId}); //guarda un objeto con nombre, imagen e ID
+                if (!selectedPokemons.some(pokemon => pokemon.id === pokemonId) && pokemonName != $pkmTeamName) {
+                    pokemonCount++;
+                    selectedPokemons.push({name: pokemonName, img: pokemonImg, id: pokemonId}); // Guarda un objeto con nombre, imagen e ID
                 }
             }
             else{
@@ -86,76 +136,366 @@ $(document).ready(function() {
             }
             
         }
-
         updatePokemonTotal();
-        updatePokemonList();
+        updatePokemonTeamList();
     });
 
-    // Función para actualizar el texto del total de Pokémon en la página.
+    // Delegación de eventos para eliminar pokemones del team
+    $(document).on('click', '.pokemon-entry', function() {
+        let $this = $(this); 
+        let $pokemonName = $this.closest('.pokemon-entry').find('#pkmName').text().trim();
+
+        // Seleccionar el contenedor del Pokémon y su imagen más cercana
+        let $pokemonContainer = $('div.pokemon').filter(function() {
+            return $(this).find('p:contains("' + $pokemonName + '")').length > 0;
+        });
+        
+        let $pokemonImage = $pokemonContainer.find('img');  // Obtener la imagen dentro del contenedor
+
+        $pokemonImage.removeClass('selected').css('opacity', '1');
+        $pokemonContainer.css('background-color', '');
+        pokemonCount--;
+
+        if (pokemonCount == 0) nav.css('position', 'sticky');
+
+        // Devuelve un array con todos los pokes, menos el poke con ese nombre
+        selectedPokemons = selectedPokemons.filter(pokemon => pokemon.name !== $pokemonName);
+
+        updatePokemonTotal();
+        updatePokemonTeamList();
+    });
+
+    // Delegación de eventos para manejar el click en cards cargadas dinámicamente. (+ info)
+    $(document).on('click', 'div.pokemon button', function() {
+        let $this = $(this);
+        let $pokemon = $this.closest('.pokemon');
+        let pokemonName = $pokemon.find('p').eq(1).text();
+        let pokemonImg = $this.attr('src');
+        let pokemonIdString = $pokemon.find('#idnum').text();
+        let pokemonId = pokemonIdString.replace('#', '');
+
+        if ($this.hasClass('selected')) {
+            $this.removeClass('selected');
+            pokemonCountDetails--;
+            
+            selectedPokemonsDetails = selectedPokemonsDetails.filter(pokemon => pokemon.name !== pokemonName);
+        } else{
+            $this.addClass('selected');
+            pokemonCountDetails++;
+            nav.css('position', 'relative');
+            
+            // Si el pokemon no está en la lista (busca por id), agrega el nombre, la imagen y el ID
+            if (!selectedPokemonsDetails.some(pokemon => pokemon.id === pokemonId)) {
+                selectedPokemonsDetails = [];
+                selectedPokemonsDetails.push({name: pokemonName, img: pokemonImg, id: pokemonId});
+            }
+        }
+        updatePokemonInfo();
+        updatePokemonDetail(pokemonId);
+    });
+
+    // ----------------------------------  Funciones  ---------------------------------- //
+
+    // Función para cargar los Pokémon de la primera generación.
+
+    function loadFirstGenPokemons() {
+        clearCards();
+        $.ajax({
+            url: 'https://pokeapi.co/api/v2/pokemon?limit=151', //`https://pokeapi.co/api/v2/generation/${generationId}/`
+            type: 'GET',
+            dataType: 'json',
+            success: function(data) {
+                // Guardo los pokes seleccionados (tipos)
+                pokemonArray2 = data.results;
+
+                // Cargar la primera página de Pokémon
+                currentPage = 1;
+                loadPokemonPage(currentPage);
+                createPaginationButtons();
+            },
+            error: function() {
+                console.log('Error al obtener los Pokémon de la primera generación.');
+            }
+        });
+    }
+    
+    function isValidType(type) {
+        const validTypes = ["normal", "fire", "water", "electric", "grass", "ice", "fighting", "poison", "ground", "flying", "psychic", "bug", "rock", "ghost", "dragon", "dark", "steel", "fairy"];
+        return validTypes.includes(type);
+    }
+
+    function searchByName(name) {
+        flag = 0;
+        $.ajax({
+            url: `https://pokeapi.co/api/v2/pokemon/${name}`,
+            method: 'GET',
+            success: function (pokemon) {
+                pokemonArray.push(pokemon);
+                addPokemonCard(pokemon);
+            },
+            error: function () {
+                alert('Pokémon no encontrado.');
+            }
+        });
+    }
+
+    function searchById(id) {
+        flag = 0;
+        $.ajax({
+            url: `https://pokeapi.co/api/v2/pokemon/${id}`,
+            method: 'GET',
+            success: function (pokemon) {
+                pokemonArray.push(pokemon);
+                addPokemonCard(pokemon);
+            },
+            error: function () {
+                alert('Pokémon no encontrado.');
+            }
+        });
+    }
+
+    function searchByType(type) {
+        flag = 0;
+        clearCards();
+        $.ajax({
+            url: `https://pokeapi.co/api/v2/type/${type}`,
+            method: 'GET',
+            success: function(typeData) {
+                // Guardo los pokes seleccionados (tipos)
+                pokemonArray2 = typeData.pokemon;
+
+                // Cargar la primera página de Pokémon
+                currentPage = 1;
+                loadPokemonPage(currentPage);
+                createPaginationButtons();
+
+            },
+            error: function() {
+                alert('Tipo no encontrado.');
+            }
+        });
+    }
+
+    function loadPokemonPage(page) {
+        const startIndex = (page - 1) * pokemonsPerPage;
+        const endIndex = startIndex + pokemonsPerPage;
+        const pokemonsToShow = pokemonArray2.slice(startIndex, endIndex);
+        let pokemonDetailsPromises;
+        
+        clearCards(); // Limpiar las cards antes de agregar nuevas
+        clearDetails(); // Limpia los detalles al pasar a la otra página
+
+        if(flag == 1){
+            pokemonDetailsPromises = pokemonsToShow.map(pokemonEntry => {
+                return $.ajax({
+                    url: pokemonEntry.url,
+                    type: 'GET',
+                    dataType: 'json'
+                });
+            });
+        } else{
+            // Solicitar detalles de cada Pokémon en la página actual
+            pokemonDetailsPromises = pokemonsToShow.map(pokemonEntry => {
+                return $.ajax({
+                    url: pokemonEntry.pokemon.url,
+                    type: 'GET',
+                    dataType: 'json'
+                });
+            });
+        }
+    
+        // Una vez obtenidos los detalles, agregar las cards
+        Promise.all(pokemonDetailsPromises)
+            .then(detailsArray => {
+                detailsArray.sort((a, b) => a.id - b.id); // Ordenar por ID
+    
+                detailsArray.forEach(details => {
+                    pokemonArray.push(details); // Llenamos el array con nuevos pokes
+                    addPokemonCard(details);  // Mostrar cada card en la página
+                });
+
+            })
+            .catch(error => {
+                console.log('Error al obtener detalles de los Pokémon:', error);
+            });
+    }
+
+    function createPaginationButtons() {
+        Pages = Math.ceil(pokemonArray2.length / pokemonsPerPage);
+        const totalPages = Pages;
+        const $paginationContainer = $('#pagination');  // Contenedor de paginación
+        $paginationContainer.empty();  // Limpiar botones anteriores
+        $('.paginationContainer').empty();
+
+        // Botón "Anterior"
+        const $prevButton = $('<button>')
+        .text('Anterior')
+        .addClass('page-btn prev')
+        .prop('disabled', currentPage === 1)  // Desactivar si está en la primera página
+        .on('click', function() {
+            if (currentPage > 1) {
+                currentPage--;
+                loadPokemonPage(currentPage);
+                createPaginationButtons(); // Actualizar los botones de paginación
+            }
+        });
+
+        $('.paginationContainer').append($prevButton);
+    
+        // Crear un botón por cada página
+        for (let i = 1; i <= totalPages; i++) {
+            const $pageButton = $('<button>')
+                .text(i)
+                .addClass('page-btn')
+                .on('click', function() {
+                    currentPage = i;  // Cambiar a la página seleccionada
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth' // Para un desplazamiento suave
+                    });
+                    loadPokemonPage(currentPage);
+                });
+    
+            $paginationContainer.append($pageButton);
+            $('.paginationContainer').append($paginationContainer);
+        }
+
+        // Botón "Siguiente"
+        const $nextButton = $('<button>')
+        .text('Siguiente')
+        .addClass('page-btn next')
+        .prop('disabled', currentPage === totalPages)  // Desactivar si está en la última página
+        .on('click', function() {
+            if (currentPage < totalPages) {
+                currentPage++;
+                loadPokemonPage(currentPage);
+                createPaginationButtons(); // Actualizar los botones de paginación
+            }
+        });
+
+        $('.paginationContainer').append($nextButton);
+    }
+
+    function addPokemonCard(details) {
+        const card = `
+            <div class="pokemon">
+                <img class="pokemon-img" src="${details.sprites.other['official-artwork'].front_default}" alt="${details.name}">
+                <p id="idnum">#${details.id.toString().padStart(3, '0')}</p>
+                <p>${details.name.charAt(0).toUpperCase() + details.name.slice(1)}</p>
+                <div class="types extra-content">
+                    ${details.types.map(type => `<p class="${type.type.name}">${type.type.name.charAt(0).toUpperCase() + type.type.name.slice(1)}</p>`).join('')}
+                </div>
+                <button class="info-button">+ info</button>
+            </div>
+        `;
+
+        // Agrega la card al contenedor principal
+        $pokemonContainer.append(card);
+    }
+
+    // Función para actualizar el texto del total de Pokémon en el aside.
     function updatePokemonTotal() {
-        $('#pokemon-total').text('Pokemones seleccionados: ' + pokemonCount);
+        $('#pkm-total').text('Pokemones seleccionados: ' + pokemonCount);
 
         if (pokemonCount > 0) {
-            $('#teamSelected').fadeIn();
+            $('#teamSelected').addClass('visible'); // Muestra el aside pkmTeam
+            $('#teamSelected').css('opacity', '1');    //ponerle un efecto que simule fadeIn/fadeOut?
         } else {
-            $('#teamSelected').fadeOut();
+            $('#teamSelected').removeClass('visible'); // Oculta el aside
+            $('#teamSelected').css('opacity', '0');
         }
     }
 
     // Función para actualizar el contenido del aside con los Pokémon seleccionados.
-    function updatePokemonList() {
+    function updatePokemonTeamList() {
         let $teamSelected = $('#teamSelected');
+        let $section = $('#pkmTeamContainer');
+        let $buttonSection = $('.btnSection');
 
-        $teamSelected.find('section.pokemon-entry').remove(); // Vacio aside
+        $section.find('section.pokemon-entry').remove(); // Borra el aside
+        //$section.find('section.pokemon-entry').remove(); // Borra el aside
 
-        selectedPokemons.forEach((pokemon) => {
+        selectedPokemons.forEach((pokemon) => { //Recorre y por cada poke agrega una section con la imagen de la pokebola, el nombre y el gif
+            //console.log("El id del pokemon encontrado es: " + pokemon.id);
+
             var pokemonGif = findPokemonGifByID(parseInt(pokemon.id));
 
-            if ($teamSelected.find('section.pokemon-entry').length < 6) {
+            if ($section.find('section.pokemon-entry').length < 6) { // Colocar un contenedor que tenga el p y el section agregado dinamicamente
                 let newSection = `
                     <section class="pokemon-entry teamColor">
-                        <img class="pkm-img" src="https://upload.wikimedia.org/wikipedia/commons/5/53/Pok%C3%A9_Ball_icon.svg" alt="Ícono personalizado">
-                        <p> ${pokemon.name} </p>
+                        <img class="pkm-img" id="pkm-img" src="https://upload.wikimedia.org/wikipedia/commons/5/53/Pok%C3%A9_Ball_icon.svg" alt="Ícono personalizado">
+                        <p id="pkmName" class="pkmName"> ${pokemon.name} </p>
                         <img class="pokemon-gif" src="${pokemonGif}">
                     </section>
+                    
                 `;
-                $teamSelected.append(newSection);
+                $section.append(newSection);
 
                 // Llama a la función de animación para hacer que la imagen gire un poco
                 animatePokemonImage($('.pkm-img').last());
             }
-
         });
 
+        addButtons();
+        
+    }
+
+    function addButtons(){
+        let $buttonSection = $('.btnSection');
+        //  * BOTÓN PARA ELIMINAR POKEMONES DEL ASIDE *
+
         // Si ya existe el botón, lo elimina
-        $teamSelected.find('.round-button').remove();
+        //$teamSelected.find('.round-button').remove();
+        $buttonSection.find('.round-button').remove();
 
         // Añade un botón al final del aside.
         let roundButton = `
-            <button class="round-button">Borrar selección</button>
+            <button class="teamButton round-button">Borrar selección</button>
         `;
-        $teamSelected.append(roundButton);
+        //$teamSelected.append(roundButton);
+        $buttonSection.append(roundButton);
 
-        $('.round-button').on('click', function() {
+        $('.teamButton').on('click', function() {
+            // Vacía el array de Pokémon seleccionados y reinicia el contador.
             selectedPokemons = [];
             pokemonCount = 0;
 
-            // Borra todos los sections (pokemones)
-            $teamSelected.find('section.pokemon-entry').remove();
-
             // Restablece el contador de Pokémon seleccionados (borra aside).
             updatePokemonTotal();
-            if (pokemonCount == 0) {nav.css('position', 'sticky');};
+            clearTeam(); // Borra los pokemones del aside
 
             // Restablece el estado de las imágenes de Pokémon a no seleccionadas.
             $('img.selected').removeClass('selected').css('opacity', '1');
             $('.pokemon').css('background-color', '');
         });
+
+        //  * BOTÓN PARA GUARDAR POKEMONES *
+
+        // Si ya existe el botón, lo elimina
+        //$teamSelected.find('.btn').remove();
+        $buttonSection.find('.btn').remove();
+
+        // Añade un botón al final del aside.
+        let roundButton2 = `
+            <button class="teamButton2 round-button btn">Guardar equipo</button>
+        `;
+
+        //$teamSelected.append(roundButton2);
+        $buttonSection.append(roundButton2);
+
+        $('.btn')
+        .prop('disabled', pokemonCount < 6)
+        .on('click', function() {
+            let storedTeams = JSON.parse(localStorage.getItem('pokemonTeams')) || [];
+            storedTeams.push(selectedPokemons);  // Agregar el equipo actual
+            localStorage.setItem('pokemonTeams', JSON.stringify(storedTeams));
+            alert('Equipo guardado correctamente.');
+        });
     }
 
-    function findPokemonGifByID(id) {
-        let foundPokemon = pokemonArray.find(pokemonArray => pokemonArray.id === id); 
-        return foundPokemon.sprites.other['showdown'].front_default; //retorna el gif de ese pokemon
+    function findPokemonGifByID(idPokemon) {
+        let foundPokemon = pokemonArray.find(pokemon => pokemon.id === idPokemon);
+        return foundPokemon.sprites.other['showdown'].front_default;
     }
 
     // Función para animar la pokebola
@@ -185,6 +525,281 @@ $(document).ready(function() {
         }, 500);
     }
 
-    // Llama a la función para cargar los Pokémon al cargar la página.
-    cargarPokemonesPrimeraGeneracion();
+    // Función para actualizar el texto del total de Pokémon en la página.
+    function updatePokemonInfo() {
+        if (pokemonCountDetails > 0) {
+            if(pokemonCount > 0){
+                $('#teamSelected').css('position', 'relative');
+            }
+            $('#pokemonDetails').css('opacity', '1');
+            $('#pokemonDetails').addClass('visible');
+        }
+        // Una vez que se hace click en +info, no desaparece mas el aside a menos que se realize otra búsqueda
+        // else {
+        //     $('#pokemonDetails').css('opacity', '0');
+        //     $('#pokemonDetails').removeClass('visible');
+        // }
+    }
+
+    // Función para actualizar el contenido del aside con los Pokémon seleccionados.
+    function updatePokemonDetail(idPokemon) {
+        let $aside = $('#pokemonDetails');
+        let $section = $('#pkmDetailContainer');
+
+        // Borro los contenedores del aside
+        $section.find('section.pokemon_MainDetail_Container').remove();
+        $section.find('section.pokemon_MainDetail').remove();
+        $section.find('section.pokemon_SecondaryDetail').remove();
+        $section.find('section.pokemon_EvolutionDetail').remove();
+
+        const foundPokemon = pokemonArray.find(pokemon => pokemon.id == idPokemon); // foundPokemon tiene todos los datos del poke a mostrar
+        var pokemonGif = findPokemonGifByID(parseInt(foundPokemon.id));
+
+        pokemonSpecieAJAX(foundPokemon.name, 0); //0 para traer categoría del poke
+        pokemonSpecieAJAX(foundPokemon.name, 1); //1 para obtener la descripción del poke
+        pokemonSpecieAJAX(foundPokemon.name, 2); //2 para obtener el sexo del poke
+        pokemonSpecieAJAX(foundPokemon.name, 3); //3 para obtener el habitat del poke
+
+        let MainDetailSection = `
+            <section class="pokemon_MainDetail_Container">
+                <section class="image-container teamColor">
+                    <img src="${foundPokemon.sprites.other['official-artwork'].front_default}" alt="${foundPokemon.name}"></img>
+                </section>
+                <section class="pokemon_MainDetail teamColor">
+                    <div class="pokemon_MainDetail_1">
+                        <h3> ${foundPokemon.name.charAt(0).toUpperCase()}${foundPokemon.name.slice(1)} </h3>
+                        <p id="pokemonGenus" ></p>
+                    </div>
+
+                    <div class="pokemon_MainDetail_2">
+                        <h4> #${idPokemon} </h4>
+                        <div class="pokemon_MainDetail_2_container">
+                            <div class="pokemon_MainDetail_2-1">
+                                <div class="pokemon_MainDetail_2-1ImgMale">
+                                    <img src="/img/male.png"></img>
+                                </div>
+                                <p id="pokemonSexMale" ></p>
+                            </div>
+
+                            <div class="pokemon_MainDetail_2-2">
+                                <div class="pokemon_MainDetail_2-2ImgFemale">
+                                    <img src="/img/female.png"></img>
+                                </div>
+                                <p id="pokemonSexFemale" ></p>
+                            </div>
+                        </div>
+                        
+                    </div>
+
+                    <div class="types pkmTypes">
+                        ${foundPokemon.types.map(type => `<p class="${type.type.name}">${type.type.name.charAt(0).toUpperCase() + type.type.name.slice(1)}</p>`).join('')}
+                    </div>
+                    
+                </section>
+            </section>
+            
+        `;
+
+        let SecondaryDetailSection = `
+            <section class="pokemon_SecondaryDetail">
+                <section class="pokemon-DescriptionDetail teamColor">
+                    <p id="pkmDescription"> ${foundPokemon.name} </p>
+                </section>
+                <section class="pokemon-HabilitiesDetail teamColor">
+                    <h4> Habilidades </h4>
+                    <div class="pokemon-HabilitiesDetail_Hblt">
+                        ${foundPokemon.abilities.map(abilities => `<p class="steel">${abilities.ability.name.charAt(0).toUpperCase() + abilities.ability.name .slice(1)}</p>`).join('')}
+                    </div>
+                    <div class="pokemon-HabilitiesDetail_2_container">
+                        <div class="pokemon-HabilitiesDetail_2">
+                            <h4> Altura </h4>
+                            <p id="pkmHeight"> ${foundPokemon.height}m </p>
+                        </div>
+                        <div class="pokemon-HabilitiesDetail_2">
+                            <h4> Peso </h4>
+                            <p id = "pkmWeight"> ${foundPokemon.weight}Kg </p>
+                        </div>
+                    </div>
+                    <div class="pokemon-HabilitiesDetail_2_container2">
+                        <div class="pokemon-HabilitiesDetail_2">
+                            <h4> Hábitat </h4>
+                            <p id="habitat"> </p>
+                        </div>
+                        <div class="pokemon-HabilitiesDetail_2">
+                            <h4> EXP Base </h4>
+                            <p> ${foundPokemon.base_experience} </p>
+                        </div>
+                    </div>
+                    <div class="pokemon-HabilitiesDetail_2_container3">
+                        <div class="pokemon-StatsDetailContainer">
+                            <p id="pkmHp"> HP </p>
+                            <p>${foundPokemon.stats[0].base_stat}</p>
+                        </div>
+                        <div class="pokemon-StatsDetailContainer">
+                            <p id="pkmAtk"> ATK </p>
+                            <p>${foundPokemon.stats[1].base_stat}</p>
+                        </div>
+                        <div class="pokemon-StatsDetailContainer">
+                            <p id="pkmDef"> DEF </p>
+                            <p>${foundPokemon.stats[2].base_stat}</p>
+                        </div>
+                        <div class="pokemon-StatsDetailContainer">
+                            <p id="pkmSpa"> SpA </p>
+                            <p>${foundPokemon.stats[3].base_stat}</p>
+                        </div>
+                        <div class="pokemon-StatsDetailContainer">
+                            <p id="pkmSpd"> SpD </p>
+                            <p>${foundPokemon.stats[4].base_stat}</p>
+                        </div>
+                        <div class="pokemon-StatsDetailContainer">
+                            <p id="pkmSpeed"> SPD </p>
+                            <p>${foundPokemon.stats[5].base_stat}</p>
+                        </div>
+                        <div class="pokemon-StatsDetailContainer TotalStat">
+                            <p id="pkmTotal"> TOT </p>
+                            <p>${foundPokemon.stats[0].base_stat + 
+                                foundPokemon.stats[1].base_stat + 
+                                foundPokemon.stats[2].base_stat +
+                                foundPokemon.stats[3].base_stat +
+                                foundPokemon.stats[4].base_stat +
+                                foundPokemon.stats[5].base_stat
+                            }</p>
+                        </div>
+                    </div>
+                </section>
+            </section>
+        `;
+
+        let EvolutionDetail = `
+            <section class="pokemon_EvolutionDetail teamColor">
+                <h4> Evolución </h4>
+                <img class="pokemon-gif" src="${foundPokemon.sprites.other['official-artwork'].front_default}" alt="${foundPokemon.name}">
+            </section>
+        `;
+
+        $section.append(MainDetailSection);
+        $section.append(SecondaryDetailSection);
+        $section.append(EvolutionDetail);
+
+        //SE DEBERÍA QUITAREL BOTON PARA SACAR INFO EN PANTALLAS GRANDES?
+
+        $aside.find('.round-button').remove();
+
+        let roundButton = `
+            <button class="detailsButton round-button">Borrar selección</button>
+        `;
+        $aside.append(roundButton);
+
+        // Añade un evento para eliminar la selección cuando se presione el botón.
+        $('.detailsButton').on('click', function() {
+            selectedPokemonsDetails = [];
+            pokemonCountDetails = 0;
+
+            $aside.find('section.pkmTeamContainer').remove();
+
+            updatePokemonInfo();
+            $('#teamSelected').css('position', 'sticky');
+
+            $('#pokemonDetails').css('opacity', '0');
+            $('#pokemonDetails').removeClass('visible');
+
+            $('button.selected').removeClass('selected').css('opacity', '1');
+        });
+    }
+
+    function clearCards(){ //solo borra las card del main
+        $pokemonContainer.empty();
+    }
+
+    function clearDetails(){ // Borra el aside de details y le da sticky al aside de team
+        let $aside = $('#pokemonDetails');
+        selectedPokemonsDetails = [];
+        pokemonCountDetails = 0;
+
+        $aside.find('section.pkmTeamContainer').remove();
+
+        updatePokemonInfo();
+        $('#teamSelected').css('position', 'sticky');
+
+        $('#pokemonDetails').css('opacity', '0');
+        $('#pokemonDetails').removeClass('visible');
+
+        $('button.selected').removeClass('selected').css('opacity', '1');
+    }
+
+    function clearTeam(){
+        let $section = $('#pkmTeamContainer');
+        $section.find('section.pokemon-entry').remove();
+    }
+
+    function pokemonSpecieAJAX(pokemonName, type){
+        $.ajax({
+            url: `https://pokeapi.co/api/v2/pokemon-species/${pokemonName}/`,
+            method: 'GET',
+            success: function(data) {
+
+                if(type == 0){
+                    // Filtramos para obtener la categoría en inglés
+                    const genera = data.genera.find(gen => gen.language.name === "en");
+
+                    // Agregamos la categoría al elemento con id "pokemonGenus"
+                    $('#pokemonGenus').text(genera.genus);
+                }
+
+                if(type == 1){
+
+                    // Obtenemos las descripciones del Pokémon
+                    const flavorTexts = data.flavor_text_entries;
+
+                    // Filtramos las descripciones en español (u otro idioma si lo prefieres)
+                    const descriptionES = flavorTexts.find(entry => entry.language.name === "es");
+
+                    // Agregamos la categoría al elemento con id "pokemonGenus"
+                    $('#pkmDescription').text(descriptionES.flavor_text);
+                }
+
+                if(type == 2){
+                    // Verificamos si el Pokémon tiene género o no
+                    const genderRate = data.gender_rate;
+                    let male, female, noGender;
+                    //console.log("genero: " + genderRate);
+
+                    if (genderRate === -1) {
+                        noGender = "Sin género";
+                    } else {
+                        // Calculamos las proporciones de macho y hembra
+                        const femalePercent = (genderRate / 8) * 100;
+                        const malePercent = 100 - femalePercent;
+
+                        male = `${malePercent}%`;
+                        female = `${femalePercent}%`;
+                    }
+
+                    // Agregamos la categoría al elemento con id "pokemonGenus"
+                    $('#pokemonSexMale').text(male);
+                    $('#pokemonSexFemale').text(female);
+                    //faltaría mandar en casi de que no tenga género
+                }
+
+                if(type == 3){
+                    // Obtenemos las descripciones del Pokémon
+                    const habitatText = data.habitat;
+
+                    // Agregamos la categoría al elemento con id "pokemonGenus"
+                    $('#habitat').text(habitatText.name);
+                }
+
+                if(type == 4){
+                }
+
+            },
+            error: function() {
+                console.error('Error al obtener la categoría del Pokémon');
+            }
+        });
+    }
+
+
 });
+
+

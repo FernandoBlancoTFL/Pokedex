@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Pokédex Pokémon</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel="icon" href="/img/pokeball.png" type="image/png">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css" media="screen">
+    <link rel="stylesheet" href="/css/searchResult.css" type="text/css" media="screen">
+    <link rel="stylesheet" href="/css/teamHistory.css" type="text/css" media="screen">
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src='js/scripts.js'></script>
+    <script src='js/webSearch.js'></script>
+    <script src='js/teamHistory.js'></script>
+
+</head>
+<body>
+    <div class="wrapper">
+
+        <header class="header">
+            <a class="logoClass" href="index.html">
+                <img src="/img/Pokédex_logo.png" alt="Logo">
+            </a>
+            <div class="search-container">
+                <input class="id_nombre search-input" id="nombre" type="text" placeholder="Ingresar el nombre o ID de un pokemon...">
+                <button class="search-button boton_busqueda" id="busqueda" type="button">Buscar</button>
+            </div>
+        </header>
+
+        <nav class="nav-menu" id="types_nav">
+            <li><a class="fire" href="#fire">Fuego</a></li>
+            <li><a class="water" href="#water">Agua</a></li>
+            <li><a class="grass" href="#grass">Planta</a></li>
+            <li><a class="electric" href="#electric">Eléctrico</a></li>
+            <li><a class="normal" href="#normal">Normal</a></li>
+            <li><a class="steel" href="survey.html">Encuesta</a></li>
+            <li><a class="steel" href="teamHistory.html">Historial</a></li>
+        </nav>
+
+        <section class="content">
+            
+            <aside id="teamSelected" class="pkmTeam">
+                <h3>Equipo pokemon</h3>
+                <section id="pkmTeamContainer" class="pkmTeamContainer">
+                    <p id="pkm-total" class="teamColorTitle">Pokemones seleccionados: 0</p>
+                </section>
+            </aside>
+
+            <main class="main">
+
+                <h1>Equipos Pokémon Guardados</h1>
+                <div id="saved-teams-container">
+                    <!-- Aquí se mostrarán los equipos guardados -->
+                </div>
+                
+            </main>
+
+            <aside id="pokemonDetails" class="pkmDetails">
+                <section id="pkmDetailContainer" class="pkmDetailContainer"></section>
+            </aside>
+
+        </section>
+
+        <section class="paginationContainer" id="paginationContainer">
+            <!-- <button class="page-btn prev" aria-label="Previous Page">&laquo; Anterior</button> -->
+            <section class="pagination" id="pagination"></section>
+            <!-- <button class="page-btn next" aria-label="Next Page">Siguiente &raquo;</button> -->
+        </section>
+        
+        <footer class="footer">
+            &copy; 2024 Desarrollado por Fernando Blanco
+        </footer>
+    </div>    
+</body>
+</html>

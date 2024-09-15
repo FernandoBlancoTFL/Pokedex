@@ -41,7 +41,7 @@ $(document).ready(function () {
         sessionStorage.setItem('searchTerm', srchTerm);
     
         // Redirige a searchResult.html
-        window.location.href = 'searchResult.html';
+        window.location.href = 'index.html';
     }
 
 });

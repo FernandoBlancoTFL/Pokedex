@@ -17,12 +17,30 @@ $(document).ready(function () {
     const $searchButton = $('.search-button');
     const $logoButton = $('.logoClass');
     const $searchInput = $('.search-input');
+    const $surveyButton = $('.surveyButton');
+    const $historyButton = $('.teamhistory');
+
     const $pokemonContainer = $('.pokemons');
+    const $searchTitle = $('#searchTitle');
     const $fireButton = $('.fire');
     const $waterButton = $('.water');
     const $grassButton = $('.grass');
     const $electricButton = $('.electric');
     const $normalButton = $('.normal');
+    const $fightingButton = $('.fighting');
+    const $flyingButton = $('.flying');
+    const $groundButton = $('.ground');
+    const $rockButton = $('.rock');
+    const $bugButton = $('.bug');
+    const $ghostButton = $('.ghost');
+    const $steelButton = $('.steel');
+    const $psychicButton = $('.psychic');
+    const $iceButton = $('.ice');
+    const $dragonButton = $('.dragon');
+    const $darkButton = $('.dark');
+    const $fairyButton = $('.fairy');
+
+    const $linkButton = $('.link');
 
     $fireButton.on('click', function () {
         searchByType('fire');
@@ -32,6 +50,18 @@ $(document).ready(function () {
     $grassButton.on('click', () => searchByType('grass'));
     $electricButton.on('click', () => searchByType('electric'));
     $normalButton.on('click', () => searchByType('normal'));
+    $fightingButton.on('click', () => searchByType('fighting'));
+    $flyingButton.on('click', () => searchByType('flying'));
+    $groundButton.on('click', () => searchByType('ground'));
+    $rockButton.on('click', () => searchByType('rock'));
+    $bugButton.on('click', () => searchByType('bug'));
+    $ghostButton.on('click', () => searchByType('ghost'));
+    $steelButton.on('click', () => searchByType('steel'));
+    $psychicButton.on('click', () => searchByType('psychic'));
+    $iceButton.on('click', () => searchByType('ice'));
+    $dragonButton.on('click', () => searchByType('dragon'));
+    $darkButton.on('click', () => searchByType('dark'));
+    $fairyButton.on('click', () => searchByType('fairy'));
 
     // Búsqueda desde otra vista HTML
     const searchTerm = sessionStorage.getItem('searchTerm');
@@ -42,15 +72,9 @@ $(document).ready(function () {
         clearCards();
         clearDetails();
 
-        if (isNaN(searchTerm)) {
-            if (isValidType(searchTerm)) {
-                searchByType(searchTerm);
-            } else {
-                searchByName(searchTerm);
-            }
-        } else {
-            searchById(searchTerm);
-        }
+        $searchTitle.css('display','block');
+
+        searchValidation(searchTerm);
 
         sessionStorage.removeItem('searchTerm'); // Borro el contenido del sessionStorage 
     } else{
@@ -75,25 +99,34 @@ $(document).ready(function () {
             return;
         }
 
+        searchValidation(searchTerm);
+
         clearCards();
         clearDetails();
-
-        if (isNaN(searchTerm)) {
-            // Si no es un número, buscar por nombre o tipo
-            if (isValidType(searchTerm)) {
-                searchByType(searchTerm);
-            } else {
-                searchByName(searchTerm);
-            }
-        } else {
-            searchById(searchTerm);
-        }
+        $searchTitle.css('display','block');
     });
 
     // Evento de hacer click en el logo
     $logoButton.on('click', function () {
         flag = 1;
+        $searchTitle.css('display','none');
+        $pokemonContainer.css('margin-top', '');
         loadFirstGenPokemons();
+    });
+
+    // Evento de hacer click en otro enlace
+    $linkButton.on('click', function () {
+        $(".paginationContainer").css('display','none');
+    });
+
+    // Evento de hacer click en encuesta
+    $surveyButton.on('click', function () {
+        window.location.href = "survey.html";
+    });
+
+    // Evento de hacer click en historial
+    $historyButton.on('click', function () {
+        window.location.href = "teamHistory.html";
     });
 
     // Delegación de eventos para manejar el click en cards cargadas dinámicamente.
@@ -224,6 +257,26 @@ $(document).ready(function () {
         return validTypes.includes(type);
     }
 
+    function searchValidation(searchTerm){
+        if (isNaN(searchTerm)) {
+            if (isValidType(searchTerm)) {
+                searchByType(searchTerm);
+            } else {
+                $searchTitle.css('display','block');
+                $pokemonContainer.css('margin-top', '10px');
+                $(".paginationContainer").css('display','none');
+                $(".footer").css('margin-top','auto');
+                searchByName(searchTerm);
+            }
+        } else {
+            $searchTitle.css('display','block');
+            $pokemonContainer.css('margin-top', '10px');
+            $(".paginationContainer").css('display','none');
+            $(".footer").css('margin-top','auto');
+            searchById(searchTerm);
+        }
+    }
+
     function searchByName(name) {
         flag = 0;
         $.ajax({
@@ -256,7 +309,9 @@ $(document).ready(function () {
 
     function searchByType(type) {
         flag = 0;
-        clearCards();
+        $searchTitle.css('display','block');
+        $pokemonContainer.css('margin-top', '10px');
+        $(".paginationContainer").css('display','flex');
         $.ajax({
             url: `https://pokeapi.co/api/v2/type/${type}`,
             method: 'GET',
@@ -408,9 +463,7 @@ $(document).ready(function () {
 
     // Función para actualizar el contenido del aside con los Pokémon seleccionados.
     function updatePokemonTeamList() {
-        let $teamSelected = $('#teamSelected');
         let $section = $('#pkmTeamContainer');
-        let $buttonSection = $('.btnSection');
 
         $section.find('section.pokemon-entry').remove(); // Borra el aside
         //$section.find('section.pokemon-entry').remove(); // Borra el aside
@@ -445,34 +498,21 @@ $(document).ready(function () {
         //  * BOTÓN PARA ELIMINAR POKEMONES DEL ASIDE *
 
         // Si ya existe el botón, lo elimina
-        //$teamSelected.find('.round-button').remove();
         $buttonSection.find('.round-button').remove();
 
         // Añade un botón al final del aside.
         let roundButton = `
-            <button class="teamButton round-button">Borrar selección</button>
+            <button class="teamButton round-button redButton">Borrar selección</button>
         `;
-        //$teamSelected.append(roundButton);
         $buttonSection.append(roundButton);
 
         $('.teamButton').on('click', function() {
-            // Vacía el array de Pokémon seleccionados y reinicia el contador.
-            selectedPokemons = [];
-            pokemonCount = 0;
-
-            // Restablece el contador de Pokémon seleccionados (borra aside).
-            updatePokemonTotal();
-            clearTeam(); // Borra los pokemones del aside
-
-            // Restablece el estado de las imágenes de Pokémon a no seleccionadas.
-            $('img.selected').removeClass('selected').css('opacity', '1');
-            $('.pokemon').css('background-color', '');
+            clearTeam();
         });
 
         //  * BOTÓN PARA GUARDAR POKEMONES *
 
         // Si ya existe el botón, lo elimina
-        //$teamSelected.find('.btn').remove();
         $buttonSection.find('.btn').remove();
 
         // Añade un botón al final del aside.
@@ -480,7 +520,6 @@ $(document).ready(function () {
             <button class="teamButton2 round-button btn">Guardar equipo</button>
         `;
 
-        //$teamSelected.append(roundButton2);
         $buttonSection.append(roundButton2);
 
         $('.btn')
@@ -489,6 +528,7 @@ $(document).ready(function () {
             let storedTeams = JSON.parse(localStorage.getItem('pokemonTeams')) || [];
             storedTeams.push(selectedPokemons);  // Agregar el equipo actual
             localStorage.setItem('pokemonTeams', JSON.stringify(storedTeams));
+            clearTeam();
             alert('Equipo guardado correctamente.');
         });
     }
@@ -545,6 +585,7 @@ $(document).ready(function () {
     function updatePokemonDetail(idPokemon) {
         let $aside = $('#pokemonDetails');
         let $section = $('#pkmDetailContainer');
+        let value = 0;
 
         // Borro los contenedores del aside
         $section.find('section.pokemon_MainDetail_Container').remove();
@@ -553,15 +594,19 @@ $(document).ready(function () {
         $section.find('section.pokemon_EvolutionDetail').remove();
 
         const foundPokemon = pokemonArray.find(pokemon => pokemon.id == idPokemon); // foundPokemon tiene todos los datos del poke a mostrar
-        var pokemonGif = findPokemonGifByID(parseInt(foundPokemon.id));
+        //var pokemonGif = findPokemonGifByID(parseInt(foundPokemon.id)); //Esto está para las posibles cards que llevan a la info del siguiente poke
+        
+        if(foundPokemon.types.length == 2){
+            value = 1;
+        }
 
         pokemonSpecieAJAX(foundPokemon.name, 0); //0 para traer categoría del poke
         pokemonSpecieAJAX(foundPokemon.name, 1); //1 para obtener la descripción del poke
         pokemonSpecieAJAX(foundPokemon.name, 2); //2 para obtener el sexo del poke
         pokemonSpecieAJAX(foundPokemon.name, 3); //3 para obtener el habitat del poke
-
+        
         let MainDetailSection = `
-            <section class="pokemon_MainDetail_Container">
+            <section class="pokemon_MainDetail_Container ${foundPokemon.types[0].type.name}">
                 <section class="image-container teamColor">
                     <img src="${foundPokemon.sprites.other['official-artwork'].front_default}" alt="${foundPokemon.name}"></img>
                 </section>
@@ -601,7 +646,7 @@ $(document).ready(function () {
         `;
 
         let SecondaryDetailSection = `
-            <section class="pokemon_SecondaryDetail">
+            <section class="pokemon_SecondaryDetail ${foundPokemon.types[value].type.name}">
                 <section class="pokemon-DescriptionDetail teamColor">
                     <p id="pkmDescription"> ${foundPokemon.name} </p>
                 </section>
@@ -728,8 +773,20 @@ $(document).ready(function () {
     }
 
     function clearTeam(){
+        // Vacía el array de Pokémon seleccionados y reinicia el contador.
+        selectedPokemons = [];
+        pokemonCount = 0;
+
+        // Restablece el contador de Pokémon seleccionados (borra aside).
+        updatePokemonTotal();
+        
+        // Borro los pokemones del aside
         let $section = $('#pkmTeamContainer');
         $section.find('section.pokemon-entry').remove();
+
+        // Restablece el estado de las imágenes de Pokémon a no seleccionadas.
+        $('img.selected').removeClass('selected').css('opacity', '1');
+        $('.pokemon').css('background-color', '');
     }
 
     function pokemonSpecieAJAX(pokemonName, type){

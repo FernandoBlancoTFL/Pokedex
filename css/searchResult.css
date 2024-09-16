@@ -69,6 +69,14 @@
     margin: 0 10px;
 }
 
+.redButton {
+    background-color: red;
+}
+
+.redButton:hover{
+    background-color: rgb(200, 15, 15);
+}
+
 .teamColorTitle{
     margin: 0;
     color: #333333;
@@ -132,6 +140,7 @@
     gap: 10px;
 
     padding: 10px 10px;
+    padding-top: 0px;
     z-index: 1000;
 }
 
@@ -206,6 +215,7 @@
     align-items: center;
     gap: 10px;
     border-radius: 18px;
+    color: black;
 }
 
 .pokemon_MainDetail_2_container {
@@ -309,22 +319,23 @@
     gap: 6px;
 }
 
+.pokemon-DescriptionDetail, .pokemon-HabilitiesDetail {
+    border-radius: 18px;
+    color: black;
+}
+
 .pokemon-DescriptionDetail {
     display: flex;
     flex: 2;
     justify-content: center;
     align-items: center;
     padding: 0 10px;
-
-    border-radius: 18px;
 }
 
 .pokemon-HabilitiesDetail {
     display: flex;
     flex-flow: column nowrap;
     flex: 2;
-
-    border-radius: 18px;
 }
 
 .pokemon-HabilitiesDetail h4 {
@@ -425,7 +436,7 @@
 
 .paginationContainer {
     display: flex;
-    flex-flow: row nowrap;
+    flex-flow: row wrap;
     justify-content: space-between;
     /* background-color: red; */
     margin-bottom: 10px;
@@ -442,6 +453,7 @@
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     border: 1px solid #ddd;
+    order: 2;
 }
 
 /* Estilos para los botones de la paginación */
@@ -481,6 +493,8 @@
     align-self: center;
     height: 100%;
     margin: 0 40px;
+    order: 1;
+    margin-bottom: 10px;
 }
 
 
@@ -592,10 +606,6 @@
         /* width: 50%; */
     }
 
-    
-
-
-
     .extra-content {
        display: block; /* Hace visible el/los tipos de los pokemones en las cards */
     }
@@ -630,6 +640,16 @@
     .pokemon-HabilitiesDetail_2_container {
         width: 80%;
         align-self: center;
+    }
+
+    .paginationContainer {
+        flex-flow: row nowrap;
+        order: 1;
+    }
+
+    .prev, .next {
+        order: 2;
+        margin-bottom: 0;
     }
 
 }

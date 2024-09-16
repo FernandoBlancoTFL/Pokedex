@@ -8,14 +8,15 @@
     <link rel="icon" href="/img/pokeball.png" type="image/png">
     <link rel="stylesheet" href="/css/style.css" type="text/css" media="screen">
     <link rel="stylesheet" href="/css/survey.css" type="text/css" media="screen">
+    <!-- <link rel="stylesheet" href="/css/searchResult.css" type="text/css" media="screen"> -->
     
     <link href="https://fonts.cdnfonts.com/css/pokemon-solid" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     
-    <!-- <script src='js/scripts.js'></script> -->
     <script src='js/webSearch.js'></script>
     <script src='js/validations.js'></script>
+    <script src='js/scripts.js'></script>
 
 </head>
 
@@ -42,12 +43,31 @@
         </header>
 
         <nav class="nav-menu">
-            <li><a class="fire" href="#fire">Fuego</a></li>
-            <li><a class="water" href="#water">Agua</a></li>
-            <li><a class="grass" href="#grass">Planta</a></li>
-            <li><a class="electric" href="#electric">Eléctrico</a></li>
-            <li><a class="normal" href="#normal">Normal</a></li>
-            <li><a class="steel" href="survey.html">Encuesta</a></li>
+            <div class="nav-types">
+                <button class="fire">Fuego</button>
+                <button class="water">Agua</button>
+                <button class="grass">Planta</button>
+                <button class="electric">Eléctrico</button>
+                <button class="normal">Normal</button>
+                <button class="fighting">Lucha</button>
+                <button class="flying">Volador</button>
+                <button class="ground">Tierra</button>
+                <button class="rock">Roca</button>
+                <button class="bug">Bicho</button>
+                <button class="ghost">Fantasma</button>
+                <button class="steel">Acero</button>
+                <button class="psychic">Psíquico</button>
+                <button class="ice">Hielo</button>
+                <button class="dragon">Dragón</button>
+                <button class="dark">Siniestro</button>
+                <button class="fairy">Hada</button>
+            </div>
+            <div class="nav-links">
+                <button class="link surveyButton">Encuesta</button>
+                <button class="link teamhistory">Historial</button>
+                <!-- <li><a class="link steel" href="survey.html">Encuesta</a></li>
+                <li><a class="link steel" href="teamHistory.html">Historial</a></li> -->
+            </div>
         </nav>
 
         <main class="main">
@@ -107,7 +127,7 @@
         </main>
         
         <footer class="footer">
-            &copy; 2024 Desarrollado por Fernando Blanco & Ivan Luthje
+            &copy; 2024 Desarrollado por Fernando Blanco
         </footer>
     </div>    
 </body>

@@ -2,6 +2,13 @@
     flex-flow: column nowrap;
 }
 
+.filterSection {
+    display: flex;
+    flex-flow: row nowrap;
+    gap: 20px;
+    /* border: 1px solid rgb(200, 26, 26); */
+}
+
 .pkmTeam {
     display: none; /* Oculta el aside por defecto */
     order: 1;   /* Se posiciona por encima del main */
@@ -75,6 +82,28 @@
 
 .redButton:hover{
     background-color: rgb(200, 15, 15);
+}
+
+.btnSection2 {
+    display: flex;
+    flex-flow: row wrap;
+    order: 3;
+    width: 100%;
+    gap: 10px;
+    justify-content: center;
+    /* align-content: center; */
+}
+
+.btnSection2 button{
+    margin: 0 10px;
+}
+
+.btn2 {
+    background-color: #1E90FF;
+}
+
+.btn2:hover{
+    background-color: #1a75d0;
 }
 
 .teamColorTitle{
@@ -440,6 +469,7 @@
     justify-content: space-between;
     /* background-color: red; */
     margin-bottom: 10px;
+    
 }
 
 /* Estilos generales para la sección de paginación */
@@ -454,6 +484,7 @@
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     border: 1px solid #ddd;
     order: 2;
+    gap: 5px;
 }
 
 /* Estilos para los botones de la paginación */
@@ -464,7 +495,6 @@
     color: #007bff;
     cursor: pointer;
     font-size: 16px;
-    margin: 0 4px;
     padding: 8px 12px;
     transition: background-color 0.3s, border-color 0.3s;
 }
@@ -497,7 +527,38 @@
     margin-bottom: 10px;
 }
 
-
+/* Estilo general del select del filtro*/
+.styled-select {
+    width: 200px;
+    padding: 10px;
+    font-size: 16px;
+    border: 2px solid #4CAF50;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    color: #333;
+    cursor: pointer;
+    outline: none;
+    transition: all 0.3s ease;
+  }
+  
+  /* Cambiar el estilo cuando se pasa el cursor */
+  .styled-select:hover {
+    border-color: #45a049;
+  }
+  
+  /* Cambiar el color cuando se selecciona */
+  .styled-select:focus {
+    border-color: #45a049;
+    background-color: #f1f1f1;
+  }
+  
+  /* Estilo de la etiqueta */
+  label {
+    font-size: 16px;
+    color: #333;
+    margin-right: 10px;
+  }
+  
 
 
 /* Responsive ============================================================== */

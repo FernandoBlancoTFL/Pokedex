@@ -12,12 +12,11 @@ $(document).ready(function () {
     });
 
     $waterButton.on('click', () => changeView('water'));
-
     $grassButton.on('click', () => changeView('grass'));
-
     $electricButton.on('click', () => changeView('electric'));
-
     $normalButton.on('click', () => changeView('normal'));
+    //* COLOCAR LOS DEMAS TIPOS *
+
 
     // Evento de hacer click en el botón de búsqueda y redirige a searchResult.html
     $searchButton.on('click', function () {

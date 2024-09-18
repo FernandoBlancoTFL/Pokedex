@@ -4,13 +4,15 @@ $(document).ready(function () {
     let selectedPokemons = [];
     let selectedPokemonsDetails = [];
     let pokemonArray = [];
+    let allPkmArray = [];
     let nav = $('#types_nav');
     let flag = 0;
 
     let pokemonArray2 = [];  // Guardar todos los Pokémon del tipo seleccionado
+    let pokemonArray3 = []; // Para el filtro de legendarios
     let currentPage = 1;    // Página actual para paginación
     let Pages = 0;
-    const pokemonsPerPage = 10;  // Cantidad de Pokémon por página
+    const pokemonsPerPage = 10;  // Cantidad de Pokemones por página
 
     // Búsqueda de la vista searchResult
 
@@ -45,7 +47,6 @@ $(document).ready(function () {
     $fireButton.on('click', function () {
         searchByType('fire');
     });
-
     $waterButton.on('click', () => searchByType('water'));
     $grassButton.on('click', () => searchByType('grass'));
     $electricButton.on('click', () => searchByType('electric'));
@@ -111,6 +112,7 @@ $(document).ready(function () {
         flag = 1;
         $searchTitle.css('display','none');
         $pokemonContainer.css('margin-top', '');
+        $(".paginationContainer").css('display','flex');
         loadFirstGenPokemons();
     });
 
@@ -227,11 +229,98 @@ $(document).ready(function () {
         updatePokemonDetail(pokemonId);
     });
 
+    // Delegación de eventos para botón de filtro (Tipos)
+    $('#pokemon-filter').on('change', function() {
+        const optionValue = this.value;
+
+        const pkmnsNewTypeFilter = allPkmArray.filter(pokemon => 
+            pokemon.types.some(type => type.type.name === optionValue)
+        ).map(pokemon => {
+            return {
+                name: pokemon.name,
+                url: "https://pokeapi.co/api/v2/pokemon/" + pokemon.id + "/"
+            };
+        });
+
+        pokemonArray2 = pkmnsNewTypeFilter;
+
+        currentPage = 1;
+        loadPokemonPage(currentPage);
+        createPaginationButtons();
+    });
+
+    // Delegación de eventos para botón de filtro (Legendarios)
+    $('#pokemon-filterOpt2').on('change', function() {
+        const optionValue = this.value;
+        
+        if(optionValue == "Si"){
+            const pkmnsNewLegendaryFilter = pokemonArray2.map(pokemonEntry => {
+                const url = pokemonEntry.pokemon ? pokemonEntry.pokemon.url : pokemonEntry.url;
+    
+                // Retorna una promesa que recupera la especie del Pokémon
+                return $.ajax({
+                    url: url.replace('pokemon', 'pokemon-species'), // Cambia la URL para obtener los detalles de la especie
+                    type: 'GET',
+                    dataType: 'json'
+                });
+            });
+    
+            Promise.all(
+                pkmnsNewLegendaryFilter.map(pokemonPromise =>
+                    pokemonPromise.catch(error => {
+                        if (error.status === 404) {
+                            console.warn("Pokemon no encontrado:", error);
+                            return null;  // Retorna null para ignorar este Pokémon
+                        }
+                        // En caso de otro tipo de error, puedes propagar el error o manejarlo como prefieras
+                        throw error;
+                    })
+                )
+            )
+            .then(results => {
+                // Filtra los Pokémon que no son null y los que son legendarios
+                const legendaryPokemons = results
+                    .filter(pokemonSpecies => pokemonSpecies && pokemonSpecies.is_legendary);
+            
+                // Obtener los ids de los Pokémon legendarios
+                const legendaryPokemons2 = legendaryPokemons.map(pokemon => pokemon.id);
+            
+                // Filtrar la lista original con los Pokémon que están en la lista de ids de legendarios
+                const filteredPokemonList = allPkmArray
+                    .filter(pokemon => legendaryPokemons2.includes(pokemon.id))
+                    .map(pokemon => {
+                        return {
+                            name: pokemon.name,
+                            url: "https://pokeapi.co/api/v2/pokemon/" + pokemon.id + "/"
+                        };
+                    });
+            
+                pokemonArray2 = filteredPokemonList;
+            
+                currentPage = 1;
+                loadPokemonPage(currentPage);
+                createPaginationButtons();
+            })
+            .catch(error => {
+                console.error('Error al obtener las especies de Pokémon:', error);
+            });
+        } else{
+            pokemonArray2 = pokemonArray3;
+
+            currentPage = 1;
+            loadPokemonPage(currentPage);
+            createPaginationButtons();
+        }
+        
+        
+    });
+
+
     // ----------------------------------  Funciones  ---------------------------------- //
 
     // Función para cargar los Pokémon de la primera generación.
-
     function loadFirstGenPokemons() {
+        $(".filterSection").css('display','flex');
         clearCards();
         $.ajax({
             url: 'https://pokeapi.co/api/v2/pokemon?limit=151', //`https://pokeapi.co/api/v2/generation/${generationId}/`
@@ -264,6 +353,7 @@ $(document).ready(function () {
             } else {
                 $searchTitle.css('display','block');
                 $pokemonContainer.css('margin-top', '10px');
+                $(".filterSection").css('display','none');
                 $(".paginationContainer").css('display','none');
                 $(".footer").css('margin-top','auto');
                 searchByName(searchTerm);
@@ -271,6 +361,7 @@ $(document).ready(function () {
         } else {
             $searchTitle.css('display','block');
             $pokemonContainer.css('margin-top', '10px');
+            $(".filterSection").css('display','none');
             $(".paginationContainer").css('display','none');
             $(".footer").css('margin-top','auto');
             searchById(searchTerm);
@@ -309,6 +400,7 @@ $(document).ready(function () {
 
     function searchByType(type) {
         flag = 0;
+        $(".filterSection").css('display','flex');
         $searchTitle.css('display','block');
         $pokemonContainer.css('margin-top', '10px');
         $(".paginationContainer").css('display','flex');
@@ -340,7 +432,12 @@ $(document).ready(function () {
         clearCards(); // Limpiar las cards antes de agregar nuevas
         clearDetails(); // Limpia los detalles al pasar a la otra página
 
+        if (pokemonArray3.length === 0) {
+            pokemonArray3 = pokemonArray2;
+        }
+
         if(flag == 1){
+            saveCurrentPokemonsInfo();
             pokemonDetailsPromises = pokemonsToShow.map(pokemonEntry => {
                 return $.ajax({
                     url: pokemonEntry.url,
@@ -349,10 +446,15 @@ $(document).ready(function () {
                 });
             });
         } else{
+            saveCurrentPokemonsInfo();
             // Solicitar detalles de cada Pokémon en la página actual
             pokemonDetailsPromises = pokemonsToShow.map(pokemonEntry => {
+
+                // Determina la URL correcta
+                const url = pokemonEntry.pokemon ? pokemonEntry.pokemon.url : pokemonEntry.url;
+
                 return $.ajax({
-                    url: pokemonEntry.pokemon.url,
+                    url: url,
                     type: 'GET',
                     dataType: 'json'
                 });
@@ -431,6 +533,51 @@ $(document).ready(function () {
         $('.paginationContainer').append($nextButton);
     }
 
+    // Guarda la info de todos los pokes en pantalla
+    function saveCurrentPokemonsInfo() {
+        allPkmArray = [];
+        let allPokemonsDetails;
+
+        if(flag == 1){
+            allPokemonsDetails = pokemonArray2.map(pokemonEntry => {
+                return $.ajax({
+                    url: pokemonEntry.url,
+                    type: 'GET',
+                    dataType: 'json'
+                });
+            });
+        } else{
+            allPokemonsDetails = pokemonArray2.map(pokemonEntry => {
+
+                // Determina la URL correcta
+                const url = pokemonEntry.pokemon ? pokemonEntry.pokemon.url : pokemonEntry.url;
+
+                return $.ajax({
+                    url: url,
+                    type: 'GET',
+                    dataType: 'json'
+                });
+            });
+        }
+
+        Promise.all(allPokemonsDetails)
+            .then(detailsArray => {
+                //detailsArray.sort((a, b) => a.id - b.id); // Ordenar por ID
+    
+                detailsArray.forEach(details => {
+                    allPkmArray.push(details);
+                });
+
+                // Llamo a las funciones para agregar los filtros
+                AddfilterPokemonsTypes();
+                AddfilterPokemonsLegendary();
+
+            })
+            .catch(error => {
+                console.log('Error al obtener detalles de los Pokémon:', error);
+            });   
+    }
+
     function addPokemonCard(details) {
         const card = `
             <div class="pokemon">
@@ -489,11 +636,11 @@ $(document).ready(function () {
             }
         });
 
-        addButtons();
+        addButtonsTeam();
         
     }
 
-    function addButtons(){
+    function addButtonsTeam(){
         let $buttonSection = $('.btnSection');
         //  * BOTÓN PARA ELIMINAR POKEMONES DEL ASIDE *
 
@@ -583,7 +730,6 @@ $(document).ready(function () {
 
     // Función para actualizar el contenido del aside con los Pokémon seleccionados.
     function updatePokemonDetail(idPokemon) {
-        let $aside = $('#pokemonDetails');
         let $section = $('#pkmDetailContainer');
         let value = 0;
 
@@ -726,21 +872,45 @@ $(document).ready(function () {
         $section.append(SecondaryDetailSection);
         $section.append(EvolutionDetail);
 
-        //SE DEBERÍA QUITAREL BOTON PARA SACAR INFO EN PANTALLAS GRANDES?
+        //SE DEBERÍA QUITAR EL BOTON PARA SACAR INFO EN PANTALLAS GRANDES?
+        addButtonsInfo();
+        
+    }
 
-        $aside.find('.round-button').remove();
+    function addButtonsInfo(){
+        let $buttonSection = $('.btnSection2');
+
+        //  * BOTÓN PARA COMPARTIR POKEMONES DEL ASIDE *
+
+        $buttonSection.find('.detailsButton2').remove();
+
+        let roundButton2 = `
+            <button class="detailsButton2 round-button btn2">Compartir</button>
+        `;
+
+        $buttonSection.append(roundButton2);
+
+        // Añade un evento para eliminar la selección cuando se presione el botón.
+        $('.btn2').on('click', function() {
+            window.location.href = "share.html";
+        });
+
+        //  * BOTÓN PARA ELIMINAR POKEMONES DEL ASIDE *
+
+        $buttonSection.find('.detailsButton').remove();
 
         let roundButton = `
-            <button class="detailsButton round-button">Borrar selección</button>
+            <button class="detailsButton round-button redButton">Borrar selección</button>
         `;
-        $aside.append(roundButton);
+
+        $buttonSection.append(roundButton);
 
         // Añade un evento para eliminar la selección cuando se presione el botón.
         $('.detailsButton').on('click', function() {
             selectedPokemonsDetails = [];
             pokemonCountDetails = 0;
 
-            $aside.find('section.pkmTeamContainer').remove();
+            $buttonSection.find('section.pkmTeamContainer').remove();
 
             updatePokemonInfo();
             $('#teamSelected').css('position', 'sticky');
@@ -750,6 +920,9 @@ $(document).ready(function () {
 
             $('button.selected').removeClass('selected').css('opacity', '1');
         });
+
+        
+        
     }
 
     function clearCards(){ //solo borra las card del main
@@ -835,7 +1008,7 @@ $(document).ready(function () {
                     // Agregamos la categoría al elemento con id "pokemonGenus"
                     $('#pokemonSexMale').text(male);
                     $('#pokemonSexFemale').text(female);
-                    //faltaría mandar en casi de que no tenga género
+                            // ******Faltaría mandar en caso de que no tenga género ******
                 }
 
                 if(type == 3){
@@ -856,6 +1029,75 @@ $(document).ready(function () {
         });
     }
 
+    function AddfilterPokemonsTypes(){
+        let $section = $('#pokemon-filter');
+
+        // Creamos un nuevo array para almacenar tipos únicos
+        const pkmsTypes = [];
+
+        // Recorremos cada Pokémon en el array
+        allPkmArray.forEach(pokemon => {
+            // Recorremos cada habilidad del Pokémon
+            pokemon.types.forEach(type => {
+                const typeName = type.type.name;
+
+                // Si la habilidad aún no está en el array habilidadesUnicas, la agregamos
+                if (!pkmsTypes.includes(typeName)) {
+                    pkmsTypes.push(typeName);
+                }
+            });
+        });
+
+        // Agrego el menu de opciones
+
+        // Borro los contenedores del aside
+        $section.find('option.optType').remove();
+
+        $section.find('option.optPlaceholder').remove();
+
+        let optionTypePlaceholder = `
+                <option class="optPlaceholder" value="" disabled selected>Tipo</option>
+            `;
+
+        $section.append(optionTypePlaceholder);
+
+        pkmsTypes.forEach(type => {
+            let optionType = `
+                <option class="optType">${type}</option>
+            `;
+            
+            $section.append(optionType);
+        });
+    }
+
+    function AddfilterPokemonsLegendary(){
+        let $section = $('#pokemon-filterOpt2');
+
+        // Agrego el menu de opciones
+
+        // Borro los contenedores del aside
+        $section.find('option.optType2').remove();
+
+        $section.find('option.optPlaceholder2').remove();
+
+        let optionTypePlaceholder2 = `
+                <option class="optPlaceholder2" value="" disabled selected>Legendario</option>
+            `;
+
+        $section.append(optionTypePlaceholder2);
+
+        let optionType = `
+            <option class="optType2">Si</option>
+        `;
+
+        let optionType2 = `
+            <option class="optType2">No</option>
+        `;
+            
+        $section.append(optionType);
+        $section.append(optionType2);
+
+    }
 
 });
 

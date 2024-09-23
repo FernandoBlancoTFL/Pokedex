@@ -8,7 +8,6 @@ $(document).ready(function () {
     let allPkmArray = [];
     let nav = $('#types_nav');
     let flag = 0;
-
     let pokemonArray2 = [];  // Guardar todos los Pokémon del tipo seleccionado
     let pokemonArray3 = []; // Para el filtro de legendarios
     let currentPage = 1;    // Página actual para paginación
@@ -633,7 +632,6 @@ $(document).ready(function () {
                 // Llamo a las funciones para agregar los filtros
                 AddfilterPokemonsTypes();
                 AddfilterPokemonsLegendary();
-
             })
             .catch(error => {
                 console.log('Error al obtener detalles de los Pokémon:', error);
@@ -1152,6 +1150,22 @@ $(document).ready(function () {
             
             $section.append(optionType);
         });
+
+        // Agregar las primeras 5 opciones
+        // pkmsTypes.forEach((type, index) => {
+        //     if (index < 5) {
+        //         let optionType = `<option class="optType">${type}</option>`;
+        //         $section.append(optionType);
+        //     }
+        // });
+
+        // // Crear el resto de las opciones con scroll
+        // if (pkmsTypes.length > 5) {
+        //     pkmsTypes.slice(5).forEach(type => {
+        //         let optionType = `<option class="optType">${type}</option>`;
+        //         $section.append(optionType);
+        //     });
+        // }
     }
 
     function AddfilterPokemonsLegendary(){

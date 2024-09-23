@@ -1,6 +1,8 @@
 function initMap() {
+    // const catedralLaPlata = { lat: -34.9214, lng: -57.9544 }; //coordenadas anteriores
+
     // Coordenadas de la Catedral de La Plata
-    const catedralLaPlata = { lat: -34.9214, lng: -57.9544 };
+    const catedralLaPlata = {lat:-34.922883333333, lng:-57.956316666667};
 
     // Crear el mapa centrado en la Catedral de La Plata
     const map = new google.maps.Map(document.getElementById("map"), {
@@ -14,6 +16,4 @@ function initMap() {
         map: map,
         title: 'Catedral de La Plata'
     });
-
-    
 }

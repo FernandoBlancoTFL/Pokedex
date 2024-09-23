@@ -541,25 +541,25 @@
     cursor: pointer;
     outline: none;
     transition: all 0.3s ease;
-  }
-  
-  /* Cambiar el estilo cuando se pasa el cursor */
-  .styled-select:hover {
+}
+
+/* Cambiar el estilo cuando se pasa el cursor */
+.styled-select:hover {
     border-color: #45a049;
-  }
+}
   
-  /* Cambiar el color cuando se selecciona */
-  .styled-select:focus {
+/* Cambiar el color cuando se selecciona */
+.styled-select:focus {
     border-color: #45a049;
     background-color: #f1f1f1;
-  }
+}
   
-  /* Estilo de la etiqueta */
-  label {
+/* Estilo de la etiqueta */
+label {
     font-size: 16px;
     color: #333;
     margin-right: 10px;
-  }
+}
   
 
 

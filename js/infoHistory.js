@@ -30,7 +30,7 @@ $(document).ready(function () {
 
     
     loadSavedPokemons();
-    
+    loadAd();
 
     // ----------------------------------  Eventos  ---------------------------------- //
 
@@ -396,16 +396,8 @@ $(document).ready(function () {
             </section>
         `;
 
-        let EvolutionDetail = `
-            <section class="pokemon_EvolutionDetail teamColor">
-                <h4> Evolución </h4>
-                <img class="pokemon-gif" src="${foundPokemon.sprites.other['official-artwork'].front_default}" alt="${foundPokemon.name}">
-            </section>
-        `;
-
         $section.append(MainDetailSection);
         $section.append(SecondaryDetailSection);
-        $section.append(EvolutionDetail);
 
         //SE DEBERÍA QUITAR EL BOTON PARA SACAR INFO EN PANTALLAS GRANDES?
         addButtonsInfo();
@@ -543,6 +535,29 @@ $(document).ready(function () {
             },
             error: function() {
                 console.error('Error al obtener la categoría del Pokémon');
+            }
+        });
+    }
+
+    function loadAd() {
+        $.ajax({
+            url: "https://api.flickr.com/services/rest/",
+            data: {
+                method: "flickr.photos.search",
+                api_key: "ebf228e94e43ae7f2cda5bafc62cb8dd",
+                tags: "advertising banner",
+                format: "json",
+                nojsoncallback: 1,
+                per_page: 10 // Limita a 10 resultados, por ejemplo
+            },
+            success: function(response) {
+                // Obtener un índice aleatorio dentro del rango de fotos devueltas
+                const randomIndex = Math.floor(Math.random() * response.photos.photo.length);
+                const photo = response.photos.photo[randomIndex];
+                const imgUrl = `https://live.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}_b.jpg`;
+    
+                // Mostrar la imagen en el banner
+                $(".banner").html(`<img src="${imgUrl}" alt="Advertisement" />`);
             }
         });
     }

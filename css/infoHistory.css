@@ -1,0 +1,60 @@
+#searchTitle {
+    display: block;
+}
+
+/* Responsive ============================================================== */
+
+/* Móviles en orientación horizontal */
+@media (min-width: 480px) {
+    
+    
+}
+
+/* Tablets en orientación vertical */
+@media (min-width: 768px) {
+    .main {
+        flex: 4;
+    }
+    
+    .pkmDetails {
+        flex: 1;
+    }
+
+    .pokemon {
+        /* width: 30%; */
+        flex: 1 1 220px;
+        max-width: 220px;
+    }
+
+    .pokemon-entry {
+        width: 100%;
+        padding: 10px 5px;
+    }
+}
+
+/* Tablets en orientación vertical o escritorios normales */
+@media (min-width: 1024px) {
+    
+
+}
+
+/* Escritorios muy anchos */
+@media (min-width: 1200px) {
+    
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

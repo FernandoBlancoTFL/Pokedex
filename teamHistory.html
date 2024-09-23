@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="/css/style.css" type="text/css" media="screen">
     <link rel="stylesheet" href="/css/searchResult.css" type="text/css" media="screen">
     <link rel="stylesheet" href="/css/teamHistory.css" type="text/css" media="screen">
+    <link rel="stylesheet" href="/css/footer.css" type="text/css" media="screen">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src='js/webSearch.js'></script>
@@ -24,6 +26,7 @@
             <a class="logoClass" href="index.html">
                 <img src="/img/Pokédex_logo.png" alt="Logo">
             </a>
+            <div class="banner"></div>
             <div class="search-container">
                 <input class="id_nombre search-input" id="nombre" type="text" placeholder="Ingresar el nombre o ID de un pokemon...">
                 <button class="search-button boton_busqueda" id="busqueda" type="button">Buscar</button>
@@ -51,33 +54,23 @@
                 <button class="fairy">Hada</button>
             </div>
             <div class="nav-links">
+                <button class="link teamhistory">Equipos Pokemon</button>
+                <button class="link infohistory">Historial</button>
                 <button class="link surveyButton">Encuesta</button>
-                <button class="link teamhistory">Historial</button>
-                <!-- <li><a class="link steel" href="survey.html">Encuesta</a></li>
-                <li><a class="link steel" href="teamHistory.html">Historial</a></li> -->
+                <button class="link contact">Contacto</button>
             </div>
         </nav>
 
         <section class="content">
-            
-            <aside id="teamSelected" class="pkmTeam">
-                <h3>Equipo pokemon</h3>
-                <section id="pkmTeamContainer" class="pkmTeamContainer">
-                    <p id="pkm-total" class="teamColorTitle">Pokemones seleccionados: 0</p>
-                </section>
-            </aside>
 
             <main class="main">
 
                 <h1>Equipos Pokémon Guardados</h1>
-                    <div id="saved-teams-container">
-                </div>
+                <section id="saved-teams-container" class="teamContainer">
+                    <div id="teamContainer2" class="teamContainer2"></div>
+                </section>
                 
             </main>
-
-            <aside id="pokemonDetails" class="pkmDetails">
-                <section id="pkmDetailContainer" class="pkmDetailContainer"></section>
-            </aside>
 
         </section>
 
@@ -86,7 +79,35 @@
         </section> -->
         
         <footer class="footer">
-            &copy; 2024 Desarrollado por Fernando Blanco
+            <!-- &copy; 2024 Desarrollado por Fernando Blanco -->
+            <div class="footer-container">
+                <div class="footer-section links">
+                    <h3>Enlaces</h3>
+                    <ul>
+                        <li><a href="index.html">Inicio</a></li>
+                        <li><a href="#">Servicios</a></li>
+                        <li><a href="#">Portafolio</a></li>
+                        <li><a href="contact.html">Contacto</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section social">
+                    <h3>Síguenos</h3>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fa-brands fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section about">
+                    <h3>Sobre Nosotros</h3>
+                    <p>Somos un equipo dedicado a crear experiencias digitales innovadoras, con pasión por el diseño y la funcionalidad.</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Pokedex. Todos los derechos reservados.</p>
+            </div>
         </footer>
     </div>    
 </body>

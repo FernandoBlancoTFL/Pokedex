@@ -3,6 +3,7 @@ $(document).ready(function () {
     let pokemonCountDetails = 0;
     let selectedPokemons = [];
     let selectedPokemonsDetails = [];
+    let selectedPokemonsDetailsHistory = [];
     let pokemonArray = [];
     let allPkmArray = [];
     let nav = $('#types_nav');
@@ -20,7 +21,10 @@ $(document).ready(function () {
     const $logoButton = $('.logoClass');
     const $searchInput = $('.search-input');
     const $surveyButton = $('.surveyButton');
-    const $historyButton = $('.teamhistory');
+    const $teamHistoryButton = $('.teamhistory');
+    const $historyButton = $('.infohistory');
+    const $contactButton = $('.contact');
+    const $adButton = $('.adButton');
 
     const $pokemonContainer = $('.pokemons');
     const $searchTitle = $('#searchTitle');
@@ -83,6 +87,9 @@ $(document).ready(function () {
         loadFirstGenPokemons();
     }
 
+    // Función de publicidad
+    loadAd();
+
     if(!searchTerm){
         //alert('No se encontró ningún término de búsqueda.');
         //window.history.back();                                    //*REVISAR*
@@ -126,9 +133,26 @@ $(document).ready(function () {
         window.location.href = "survey.html";
     });
 
+    // Evento de hacer click en equipo pokemon
+    $teamHistoryButton.on('click', function () {
+        window.location.href = "teamHistory.html";
+    });
+
     // Evento de hacer click en historial
     $historyButton.on('click', function () {
-        window.location.href = "teamHistory.html";
+        //localStorage.removeItem('infoHistory'); // Esto es para borrar el item del LocalStorage
+        window.location.href = "infoHistory.html";
+    });
+
+    // Evento de hacer click en contacto
+    $contactButton.on('click', function () {
+        //localStorage.removeItem('infoHistory'); // Esto es para borrar el item del LocalStorage
+        window.location.href = "contact.html";
+    });
+
+    // Evento de hacer click en algún botón que haga cambiar la publicidad
+    $adButton.on('click', function () {
+        loadAd();
     });
 
     // Delegación de eventos para manejar el click en cards cargadas dinámicamente.
@@ -162,8 +186,9 @@ $(document).ready(function () {
                 nav.css('position', 'relative');
                 
                 if (!selectedPokemons.some(pokemon => pokemon.id === pokemonId) && pokemonName != $pkmTeamName) {
+                    var pokemonGif = findPokemonGifByID(parseInt(pokemonId));
                     pokemonCount++;
-                    selectedPokemons.push({name: pokemonName, img: pokemonImg, id: pokemonId}); // Guarda un objeto con nombre, imagen e ID
+                    selectedPokemons.push({name: pokemonName, img: pokemonImg, id: pokemonId, gif: pokemonGif}); // Guarda un objeto con nombre, imagen e ID
                 }
             }
             else{
@@ -208,6 +233,20 @@ $(document).ready(function () {
         let pokemonImg = $this.attr('src');
         let pokemonIdString = $pokemon.find('#idnum').text();
         let pokemonId = pokemonIdString.replace('#', '');
+
+        // Guardo los pokes seleccionados en el sessionStorage
+
+        // Recuperar el array de IDs guardados en sessionStorage o inicializar un array vacío si no existe
+        let savedPokemonIds = JSON.parse(sessionStorage.getItem('pokemonIds')) || [];
+
+        // Verificar si el ID ya existe para evitar duplicados
+        if (!savedPokemonIds.includes(pokemonId)) {
+            // Agregar el nuevo ID al array
+            savedPokemonIds.push(pokemonId);
+
+            // Guardar el array actualizado en sessionStorage
+            sessionStorage.setItem('pokemonIds', JSON.stringify(savedPokemonIds));
+        }
 
         if ($this.hasClass('selected')) {
             $this.removeClass('selected');
@@ -337,6 +376,29 @@ $(document).ready(function () {
             },
             error: function() {
                 console.log('Error al obtener los Pokémon de la primera generación.');
+            }
+        });
+    }
+
+    function loadAd() {
+        $.ajax({
+            url: "https://api.flickr.com/services/rest/",
+            data: {
+                method: "flickr.photos.search",
+                api_key: "ebf228e94e43ae7f2cda5bafc62cb8dd",
+                tags: "advertising banner",
+                format: "json",
+                nojsoncallback: 1,
+                per_page: 10 // Limita a 10 resultados, por ejemplo
+            },
+            success: function(response) {
+                // Obtener un índice aleatorio dentro del rango de fotos devueltas
+                const randomIndex = Math.floor(Math.random() * response.photos.photo.length);
+                const photo = response.photos.photo[randomIndex];
+                const imgUrl = `https://live.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}_b.jpg`;
+    
+                // Mostrar la imagen en el banner
+                $(".banner").html(`<img src="${imgUrl}" alt="Advertisement" />`);
             }
         });
     }
@@ -741,7 +803,7 @@ $(document).ready(function () {
 
         const foundPokemon = pokemonArray.find(pokemon => pokemon.id == idPokemon); // foundPokemon tiene todos los datos del poke a mostrar
         //var pokemonGif = findPokemonGifByID(parseInt(foundPokemon.id)); //Esto está para las posibles cards que llevan a la info del siguiente poke
-        
+
         if(foundPokemon.types.length == 2){
             value = 1;
         }
@@ -861,24 +923,31 @@ $(document).ready(function () {
             </section>
         `;
 
-        let EvolutionDetail = `
-            <section class="pokemon_EvolutionDetail teamColor">
-                <h4> Evolución </h4>
-                <img class="pokemon-gif" src="${foundPokemon.sprites.other['official-artwork'].front_default}" alt="${foundPokemon.name}">
-            </section>
-        `;
-
         $section.append(MainDetailSection);
         $section.append(SecondaryDetailSection);
-        $section.append(EvolutionDetail);
 
-        //SE DEBERÍA QUITAR EL BOTON PARA SACAR INFO EN PANTALLAS GRANDES?
-        addButtonsInfo();
+        //Cuando se llama a pokemonSpecieAJAX, debes pasar una función que se ejecutará cuando los datos hayan sido recibidos
+        pokemonSpecieAJAX(foundPokemon.name, 4, function(description) { //4 para obtener la descripción del poke
+            if (description) {
+                // Aquí haces lo que necesites con la descripción
+                addButtonsInfo(foundPokemon.name, idPokemon, foundPokemon.types, description); 
+            } else {
+                console.error("No se pudo obtener la descripción");
+            }
+        });
         
     }
 
-    function addButtonsInfo(){
+    function addButtonsInfo(pkmName, pkmID, pkmType, pkmDesc){
         let $buttonSection = $('.btnSection2');
+        let pokemonInfo = [pkmName, pkmID, pkmType, pkmDesc];
+
+        // Guardo la info del poke en la sessionStorage como un string JSON
+        sessionStorage.setItem('pkmShareInfo', JSON.stringify(pokemonInfo));
+
+        // Guardo la info del poke en la sessionStorage (ELIMINAR)
+        // sessionStorage.setItem('pkmShareInfo', pokemonInfo);
+        
 
         //  * BOTÓN PARA COMPARTIR POKEMONES DEL ASIDE *
 
@@ -962,7 +1031,7 @@ $(document).ready(function () {
         $('.pokemon').css('background-color', '');
     }
 
-    function pokemonSpecieAJAX(pokemonName, type){
+    function pokemonSpecieAJAX(pokemonName, type, callback){
         $.ajax({
             url: `https://pokeapi.co/api/v2/pokemon-species/${pokemonName}/`,
             method: 'GET',
@@ -1020,11 +1089,26 @@ $(document).ready(function () {
                 }
 
                 if(type == 4){
+                    // Obtenemos las descripciones del Pokémon
+                    const flavorTexts = data.flavor_text_entries;
+
+                    // Filtramos las descripciones en español (u otro idioma si lo prefieres)
+                    const descriptionES = flavorTexts.find(entry => entry.language.name === "es");
+
+                    if (descriptionES) {
+                        result = descriptionES.flavor_text;
+                    } else {
+                        result = "Descripción no disponible en español.";
+                    }
+    
+                    // Llamamos al callback con el resultado
+                    callback(result);
                 }
 
             },
             error: function() {
                 console.error('Error al obtener la categoría del Pokémon');
+                callback(null); // En caso de error, llamamos al callback con un valor nulo o un mensaje de error
             }
         });
     }

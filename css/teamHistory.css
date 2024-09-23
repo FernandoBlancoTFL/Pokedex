@@ -1,19 +1,42 @@
-#saved-teams-container {
+.teamContainer {
     display: flex;
-    flex-wrap: wrap;
+    flex-flow: column wrap;
     gap: 20px;
+    align-self: center;
+    align-items: center;
+    width: 100%;
 }
 
+.pokemon-entry {
+    width: 80%;
+}
+
+.pokemon-entry:hover {
+    border-color: green; /* Cambia el borde a rojo al pasar el mouse */
+}
+
+.pokemon-entry:active {
+    border-color: green; /* Mantiene el borde rojo mientras se hace clic */
+}
+
+
 .team {
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+
+    gap: 5px;
+    /* background-color: #444; */
+    background-image: url("/img/body_bg.png");
     border: 2px solid #ccc;
     padding: 10px;
     border-radius: 10px;
-    background-color: #f9f9f9;
-    width: 200px;
+    width: 80%;
 }
 
 .team h3 {
     margin-bottom: 10px;
+    color: white;
 }
 
 .delete-button {
@@ -37,5 +60,43 @@
 
 .footer {
     margin-top: auto;
+}
+
+/* Responsive ============================================================== */
+
+/* Móviles en orientación horizontal */
+@media (min-width: 480px) {
+    
+
+
+}
+
+/* Tablets en orientación vertical */
+@media (min-width: 768px) {
+    
+    .teamContainer {
+        flex-flow: row wrap;
+    }
+
+    
+
+    .team {
+        width: 30%;
+    }
+}
+
+/* Tablets en orientación vertical o escritorios normales */
+@media (min-width: 1024px) {
+
+    .teamContainer {
+        width: 80%;
+    }
+
+}
+
+/* Escritorios muy anchos */
+@media (min-width: 1200px) {
+    
+
 }
 

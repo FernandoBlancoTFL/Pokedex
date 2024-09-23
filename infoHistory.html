@@ -6,31 +6,19 @@
     <title>Pokédex Pokémon</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <link rel="icon" href="/img/pokeball.png" type="image/png">
+    
     <link rel="stylesheet" href="/css/style.css" type="text/css" media="screen">
-    <link rel="stylesheet" href="/css/survey.css" type="text/css" media="screen">
-    <!-- <link rel="stylesheet" href="/css/searchResult.css" type="text/css" media="screen"> -->
+    <link rel="stylesheet" href="/css/searchResult.css" type="text/css" media="screen">
+    <link rel="stylesheet" href="/css/teamHistory.css" type="text/css" media="screen">
+    <link rel="stylesheet" href="/css/infoHistory.css" type="text/css" media="screen">
     <link rel="stylesheet" href="/css/footer.css" type="text/css" media="screen">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     
-    <link href="https://fonts.cdnfonts.com/css/pokemon-solid" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    
+    <script src='js/infoHistory.js'></script>
     <script src='js/webSearch.js'></script>
-    <script src='js/validations.js'></script>
-    <script src='js/scripts.js'></script>
 
 </head>
-
-<!-- Cuadro de diálogo personalizado para botón cancelar -->
-<div id="custom-confirm" style="display: none;">
-    <div class="confirm-dialog">
-        <p>¿Desea volver a la página anterior?</p>
-        <button id="confirm-yes">Sí, deseo volver a la página anterior</button>
-        <button id="confirm-no">No</button>
-    </div>
-</div>
-
 <body>
     <div class="wrapper">
 
@@ -45,7 +33,7 @@
             </div>
         </header>
 
-        <nav class="nav-menu">
+        <nav class="nav-menu" id="types_nav">
             <div class="nav-types">
                 <button class="fire">Fuego</button>
                 <button class="water">Agua</button>
@@ -73,61 +61,89 @@
             </div>
         </nav>
 
-        <main class="main">
+        <section class="content">
 
-            <section class="survey" id="surveyID">
-                <h2>Encuesta sitio web</h2>
+            <main class="main">
 
-                 <form action="#" method="get"> <!-- puse "get" para que no salte el error, solo se recarga la página -->
-                    <label for="first-name">Nombre:</label>
-                    <input type="text" id="first-name" name="first-name">
-                    <br>
+                <h2 id="searchTitle">Historial de búsqueda:</h2>
 
-                    <label for="last-name">Apellido:</label>
-                    <input type="text" id="last-name" name="last-name">
-                    <br>
+                <section class="pokemons" id="pkms-container">
 
-                    <label for="birthdate">Fecha de Nacimiento:</label>
-                    <input type="date" id="birthdate" name="birthdate">
-                    <br>
-
-                    <div class="form-group">
-                        <label for="gender" class="form-group-title">Sexo:</label>
-                        <div class="radio-group">
-                            <label><input type="radio" id="gender-male" name="gender" value="male"> Masculino</label>
-                            <label><input type="radio" id="gender-female" name="gender" value="female"> Femenino</label>
+                    <div class="pokemon">         
+                        <img src="/img/1.png" alt="Bulbasaur">
+                        <p id="idnum">#001</p>
+                        <p>Bulbasaur</p>
+                        <div class="types extra-content">
+                            <p class="grass">Planta</p>
+                            <p class="poison">Veneno</p>
                         </div>
+                        <button class="info-button">+ info</button>
                     </div>
-                    
-                    <div class="form-group">
-                        <label for="rating" class="form-group-title">Valoración de la página:</label>
-                        <div class="radio-group">
-                            <label><input type="radio" id="rating1" name="rating" value="lamentable"> Lamentable</label>
-                            <label><input type="radio" id="rating2" name="rating" value="bad"> Mala</label>
-                            <label><input type="radio" id="rating3" name="rating" value="could-be-better"> Podría ser mejor</label>
-                            <label><input type="radio" id="rating4" name="rating" value="meets-expectations"> Cumple con mis expectativas</label>
-                            <label><input type="radio" id="rating5" name="rating" value="loved-it"> Me encantó</label>
+                    <div class="pokemon">
+                        <img src="/img/2.png" alt="Ivysaur">
+                        <p id="idnum">#002</p>
+                        <p>Ivysaur</p>
+                        <div class="types extra-content">
+                            <p class="grass">Planta</p>
+                            <p class="poison">Veneno</p>
                         </div>
+                        <button class="info-button">+ info</button>
                     </div>
-
-                    <label for="email">Email:</label>
-                    <input type="text" id="email" name="email">
-                    <br>
-
-                    <label for="comment">Comentario:</label>
-                    <textarea id="comment" name="comment" rows="4"></textarea>
-                    <br>
-
-                    <div class="button-group">
-                        <button type="submit">Enviar</button>
-                        <button type="button" class="cancel">Cancelar</button>
-                        <button class="reset">Restablecer valores</button>
+                    <div class="pokemon">
+                        <img src="/img/3.png" alt="Venusaur">
+                        <p id="idnum">#003</p>
+                        <p>Venusaur</p>
+                        <div class="types extra-content">
+                            <p class="grass">Planta</p>
+                            <p class="poison">Veneno</p>
+                        </div>
+                        <button class="info-button">+ info</button>
                     </div>
-                    
-                </form>
-            </section>
-            
-        </main>
+                    <div class="pokemon">      
+                        <img src="/img/4.png" alt="Charmander">
+                        <p id="idnum">#004</p>
+                        <p>Charmander</p>
+                        <div class="types extra-content">
+                            <p class="fire">Fuego</p>
+                        </div>
+                        <button class="info-button">+ info</button>
+                    </div>
+                    <div class="pokemon">
+                        <img src="/img/5.png" alt="Charmeleon">
+                        <p id="idnum">#005</p>
+                        <p>Charmeleon</p>
+                        <div class="types extra-content">
+                            <p class="fire">Fuego</p>
+                        </div>
+                        <button class="info-button">+ info</button>
+                    </div>
+                    <div class="pokemon">
+                        <img src="/img/6.png" alt="Charizard">
+                        <p id="idnum">#006</p>
+                        <p>Charizard</p>
+                        <div class="types extra-content">
+                            <p class="fire">Fuego</p>
+                            <p class="flying">Volador</p>
+                        </div>
+                        <button class="info-button">+ info</button>
+                    </div>
+                            
+                </section>
+                
+            </main>
+
+            <aside id="pokemonDetails" class="pkmDetails">
+                <section id="pkmDetailContainer" class="pkmDetailContainer"></section>
+                <section class="btnSection2"></section>
+            </aside>
+
+        </section>
+
+        <section class="paginationContainer" id="paginationContainer">
+            <!-- <button class="page-btn prev" aria-label="Previous Page">&laquo; Anterior</button> -->
+            <section class="pagination" id="pagination"></section>
+            <!-- <button class="page-btn next" aria-label="Next Page">Siguiente &raquo;</button> -->
+        </section>
         
         <footer class="footer">
             <!-- &copy; 2024 Desarrollado por Fernando Blanco -->

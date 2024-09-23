@@ -1,3 +1,18 @@
+.nav-menu {
+    margin-bottom: 0;
+}
+
+
+.main {
+    height: 682px;
+    margin-bottom: 0;
+    margin-top: 0;
+    padding-top: 20px;
+    background-image: url(https://ahost2.bulbagarden.net/content/bulbagarden/images/bg-green-2x-optim.png);
+}
+
+
+
 /* Estilo general del formulario */
 
 .survey {

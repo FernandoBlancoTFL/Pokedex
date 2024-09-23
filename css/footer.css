@@ -1,0 +1,141 @@
+.footer {
+    background-color: #222;
+    color: #fff;
+    text-align: center;
+}
+
+.footer-container {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: space-around;
+    align-items: center;
+
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.footer-section {
+    flex: 1;
+    padding: 20px;
+    min-width: 200px;
+    width: 90%;
+    border-bottom: 1px solid white;
+}
+
+.footer-section h3 {
+    font-size: 1.5em;
+    margin-bottom: 15px;
+    margin-top: 0;
+}
+
+.footer-section p,
+.footer-section ul {
+    font-size: 1em;
+    line-height: 1.8;
+    margin-bottom: 15px;
+}
+
+.footer-section ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-section ul li {
+    margin-bottom: 10px;
+}
+
+.footer-section ul li a {
+    color: #fff;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.footer-section ul li a:hover {
+    color: #ff6600;
+}
+
+.social-links a {
+    display: inline-block;
+    margin: 0 10px;
+    color: #fff;
+    font-size: 1.2em;
+    transition: transform 0.3s, color 0.3s;
+    padding: 10px;
+}
+
+.social-links a:hover {
+    color: #ff6600;
+    transform: scale(1.2);
+}
+
+.footer-bottom {
+    margin-top: 30px;
+    padding: 10px 0;
+    background-color: #111;
+    color: #aaa;
+}
+
+.footer-bottom p {
+    font-size: 0.9em;
+}
+
+/* Responsive ============================================================== */
+
+/* Móviles en orientación horizontal */
+@media (min-width: 480px) {
+
+    .footer-section {
+        width: 70%;
+    }
+
+}
+
+/* Tablets en orientación vertical */
+@media (min-width: 768px) {
+
+    .footer-container {
+        flex-flow: row nowrap;
+    }
+
+    .footer-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: stretch; /* Asegura que todos los elementos tengan la misma altura */
+        padding: 20px;
+    }
+
+    .footer-section {
+        flex: 1; /* Cada sección ocupará el mismo ancho */
+        padding: 10px;
+        box-sizing: border-box; /* Asegura que el padding no afecte el tamaño del contenedor */
+        border-right: 1px solid #fff;
+        border-bottom: none;
+    }
+
+    .footer-section:last-child {
+        border-right: none; /* Quita el borde derecho del último contenedor */
+    }
+
+    /* Estilos de la sección de redes sociales */
+    /* .social-links {
+        display: flex;
+        justify-content: space-between;
+    } */
+
+}
+
+/* Tablets en orientación vertical o escritorios normales */
+@media (min-width: 1024px) {
+
+    .teamContainer {
+        width: 80%;
+    }
+
+}
+
+/* Escritorios muy anchos */
+@media (min-width: 1200px) {
+
+
+}
+

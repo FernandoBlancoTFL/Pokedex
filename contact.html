@@ -3,12 +3,26 @@
 <head>
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>Pokemon</title>
+    <title>Pokédex Pokémon</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <link rel='stylesheet' type='text/css' media='screen' href='css/style.css'>
-    <link rel='stylesheet' type='text/css' media='screen' href='css/contact.css'>
+    <link rel="icon" href="/img/pokeball.png" type="image/png">
+
+    <link rel="stylesheet" href="/css/style.css" type="text/css" media="screen">
+    <link rel="stylesheet" href="/css/searchResult.css" type="text/css" media="screen">
+    <link rel="stylesheet" href="/css/teamHistory.css" type="text/css" media="screen">
+    <link rel="stylesheet" href="/css/contact.css" type="text/css" media="screen">
+    <link rel="stylesheet" href="/css/footer.css" type="text/css" media="screen">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     
     <!-- <script async src="https://maps.googleapis.com/maps/api/js?key=&callback=console.debug&libraries=maps,marker&v=beta"></script> -->
+     
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src='js/webSearch.js'></script>
+    <script src='js/contact.js'></script>
+    <script src='js/scripts.js'></script>
+    
+    <!-- <script async defer src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap"></script> -->
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjnZKue66A5quiP4jpe-GsUhjFtii4LKQ&callback=initMap"></script>
 
 </head>
 <body>
@@ -18,42 +32,99 @@
             <a class="logoClass" href="index.html">
                 <img src="/img/Pokédex_logo.png" alt="Logo">
             </a>
-            <h1>Pokédex Pokémon</h1>
+            <div class="banner"></div>
+            <div class="search-container">
+                <input class="id_nombre search-input" id="nombre" type="text" placeholder="Ingresar el nombre o ID de un pokemon...">
+                <button class="search-button boton_busqueda" id="busqueda" type="button">Buscar</button>
+            </div>
         </header>
+
+        <nav class="nav-menu" id="types_nav">
+            <div class="nav-types">
+                <button class="fire">Fuego</button>
+                <button class="water">Agua</button>
+                <button class="grass">Planta</button>
+                <button class="electric">Eléctrico</button>
+                <button class="normal">Normal</button>
+                <button class="fighting">Lucha</button>
+                <button class="flying">Volador</button>
+                <button class="ground">Tierra</button>
+                <button class="rock">Roca</button>
+                <button class="bug">Bicho</button>
+                <button class="ghost">Fantasma</button>
+                <button class="steel">Acero</button>
+                <button class="psychic">Psíquico</button>
+                <button class="ice">Hielo</button>
+                <button class="dragon">Dragón</button>
+                <button class="dark">Siniestro</button>
+                <button class="fairy">Hada</button>
+            </div>
+            <div class="nav-links">
+                <button class="link teamhistory">Equipos Pokemon</button>
+                <button class="link infohistory">Historial</button>
+                <button class="link surveyButton">Encuesta</button>
+                <button class="link contact">Contacto</button>
+            </div>
+        </nav>
 
         <section class="content">
 
-            <aside class="aside">
-                <ul class="custom-list">
-                    <p>Tipos:</p>
-                    <li><a class="fire" href="index.html">Fuego</a></li>
-                    <li><a class="water" href="index.html">Agua</a></li>
-                    <li><a class="grass" href="index.html">Planta</a></li>
-                    <li><a class="electric" href="index.html">Eléctrico</a></li>
-                    <li><a class="normal" href="index.html">Normal</a></li>
-                    <li><a class="steel" href="contact.html">Contacto Nuevo</a></li>
-                </ul>
-            </aside>
-
             <main class="main">
 
-                <section class="contactInfo">
-                    <h2>Contacto</h2>
+                <section class="sectionBox">
+                    <h3>Datos del Desarrollador:</h3>
+                    <section class="contact-info">
+                    
+                        <p><strong>Nombre:</strong> Fernando Blanco</p>
+                        <p><strong>Email:</strong> Fernando.blanco004@gmail.com</p>
+                        <p><strong>Teléfono:</strong> +54 11 6324 5514</p>
+                        <p><strong>GitHub:</strong> <a href="https://github.com" target="_blank">FernandoBlancoTFL</a></p>
+                        <p><strong>Ubicación:</strong> La Plata, Bs As, Argentina</p>
+                    </section>
                 </section>
-
-                <section class="googleMaps">
-
-                    <gmp-map center="-34.922883333333,-57.956316666667" zoom="15" map-id="map">
-                        <gmp-advanced-marker position="-34.922883333333,-57.956316666667" title="Mi localizacion"></gmp-advanced-marker>          
-                    </gmp-map>
-
+                
+            
+                <section class="sectionBox2">
+                    <h3>Ubicación de la oficina en el Mapa:</h3>
+                    <section class="map-section">
+                        <div id="map"></div>
+                    </section>
                 </section>
+                
 
             </main>
         </section>
         
         <footer class="footer">
-            &copy; 2024 Desarrollado por Fernando Blanco & Ivan Luthje
+            <!-- &copy; 2024 Desarrollado por Fernando Blanco -->
+            <div class="footer-container">
+                <div class="footer-section links">
+                    <h3>Enlaces</h3>
+                    <ul>
+                        <li><a href="index.html">Inicio</a></li>
+                        <li><a href="#">Servicios</a></li>
+                        <li><a href="#">Portafolio</a></li>
+                        <li><a href="contact.html">Contacto</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section social">
+                    <h3>Síguenos</h3>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fa-brands fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section about">
+                    <h3>Sobre Nosotros</h3>
+                    <p>Somos un equipo dedicado a crear experiencias digitales innovadoras, con pasión por el diseño y la funcionalidad.</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Pokedex. Todos los derechos reservados.</p>
+            </div>
         </footer>
     </div>    
 </body>

@@ -1,0 +1,195 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+}
+
+.main {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    background-image: url("/img/body_bg.png");
+    margin-bottom: 0;
+    justify-items: center;
+    align-items: center;
+}
+
+.container {
+    width: 80%;
+    margin: 50px 0;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-image: url("/img/container_bg.png");
+}
+
+.nav-menu {
+    margin-bottom: 0;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+label {
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+input, textarea {
+    margin-top: 15px;
+    margin-bottom: 20px;
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    width: 100%;
+}
+
+.search-input{
+    margin: 0;
+}
+
+textarea {
+    height: 100px;
+    resize: none;
+}
+
+.button-container {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button[type="submit"] {
+    background-color: #4CAF50;
+    color: white;
+}
+
+button[type="submit"]:hover {
+    background-color: #45a049;
+}
+
+#cancelButton {
+    background-color: #f44336;
+    color: white;
+}
+
+#cancelButton:hover{
+    background-color: #e53935;
+}
+
+#shareForm {
+    display: flex;
+    flex-flow: column nowrap;
+}
+
+.primarySection {
+    display: flex;
+    flex-flow: row wrap;
+    gap: 10px;
+    justify-content: center;
+}
+
+.pkmData {
+    width: 95%;
+    height: 100%;
+}
+
+.emailInputs {
+    width: 95%;
+}
+
+.secondarySection {
+    margin-top: 15px;
+}
+
+.secondarySection label{
+    margin-left: 10px;
+}
+
+#resultsContainer {
+    margin-top: 15px;
+}
+
+.sharedResult {
+    height: 132px;
+    margin: 0;
+}
+
+/* Responsive ============================================================== */
+
+/* Móviles en orientación horizontal */
+@media (min-width: 480px) {
+
+    .pkmData {
+        width: 80%;
+        height: 100%;
+    }
+
+    .emailInputs {
+        width: 80%;
+    }
+
+}
+
+/* Tablets en orientación vertical */
+@media (min-width: 768px) {
+
+    .pkmData {
+        width: 70%;
+        height: 100%;
+    }
+
+    .emailInputs {
+        width: 70%;
+    }
+
+}
+
+/* Tablets en orientación vertical o escritorios normales */
+@media (min-width: 1024px) {
+
+    .pkmData {
+        width: 49%;
+        height: 100%;
+    }
+
+    .emailInputs {
+        width: 49%;
+    }
+
+}
+
+/* Escritorios muy anchos */
+@media (min-width: 1200px) {
+
+    .pkmData {
+        width: 50%;
+        height: 100%;
+    }
+
+    .emailInputs {
+        width: 20%;
+    }
+
+    .secondarySection {
+        width: 70%;
+        align-self: center;
+    }
+
+}

@@ -9,63 +9,70 @@
     
     <link rel="stylesheet" href="/css/style.css" type="text/css" media="screen">
     <link rel="stylesheet" href="/css/searchResult.css" type="text/css" media="screen">
-    <link rel="stylesheet" href="/css/teamHistory.css" type="text/css" media="screen">
+    <!-- <link rel="stylesheet" href="/css/teamHistory.css" type="text/css" media="screen"> -->
+    <link rel="stylesheet" href="/css/footer.css" type="text/css" media="screen">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src='js/scripts.js'></script>
+
 
 </head>
 <body>
     <div class="wrapper">
 
         <header class="header">
-            <a class="logoClass">
+            <a class="logoClass adButton">
                 <img src="/img/Pokédex_logo.png" alt="Logo">
             </a>
+
+            <div class="banner"></div>
+            
             <div class="search-container">
                 <input class="id_nombre search-input" id="nombre" type="text" placeholder="Ingresar el nombre o ID de un pokemon...">
-                <button class="search-button boton_busqueda" id="busqueda" type="button">Buscar</button>
+                <button class="search-button boton_busqueda adButton" id="busqueda" type="button">Buscar</button>
             </div>
         </header>
 
         <nav class="nav-menu" id="types_nav">
             <div class="nav-types">
-                <button class="fire">Fuego</button>
-                <button class="water">Agua</button>
-                <button class="grass">Planta</button>
-                <button class="electric">Eléctrico</button>
-                <button class="normal">Normal</button>
-                <button class="fighting">Lucha</button>
-                <button class="flying">Volador</button>
-                <button class="ground">Tierra</button>
-                <button class="rock">Roca</button>
-                <button class="bug">Bicho</button>
-                <button class="ghost">Fantasma</button>
-                <button class="steel">Acero</button>
-                <button class="psychic">Psíquico</button>
-                <button class="ice">Hielo</button>
-                <button class="dragon">Dragón</button>
-                <button class="dark">Siniestro</button>
-                <button class="fairy">Hada</button>
+                <button class="fire adButton">Fuego</button>
+                <button class="water adButton">Agua</button>
+                <button class="grass adButton">Planta</button>
+                <button class="electric adButton">Eléctrico</button>
+                <button class="normal adButton">Normal</button>
+                <button class="fighting adButton">Lucha</button>
+                <button class="flying adButton">Volador</button>
+                <button class="ground adButton">Tierra</button>
+                <button class="rock adButton">Roca</button>
+                <button class="bug adButton">Bicho</button>
+                <button class="ghost adButton">Fantasma</button>
+                <button class="steel adButton">Acero</button>
+                <button class="psychic adButton">Psíquico</button>
+                <button class="ice adButton">Hielo</button>
+                <button class="dragon adButton">Dragón</button>
+                <button class="dark adButton">Siniestro</button>
+                <button class="fairy adButton">Hada</button>
             </div>
             <div class="nav-links">
+                <button class="link teamhistory">Equipos Pokemon</button>
+                <button class="link infohistory">Historial</button>
                 <button class="link surveyButton">Encuesta</button>
-                <button class="link teamhistory">Historial</button>
+                <button class="link contact">Contacto</button>
             </div>
         </nav>
 
         <section class="content">
-            
+
             <aside id="teamSelected" class="pkmTeam">
                 <section class="titleSection">
                     <h3>Equipo pokemon <p id="pkm-total" class="teamColorTitle">Pokemones seleccionados: 0</p></h3>
                 </section>
                 <section id="pkmTeamContainer" class="pkmTeamContainer">
-                    <!-- <p id="pkm-total" class="teamColorTitle">Pokemones seleccionados: 0</p> -->
                     <section class="btnSection"></section>
                 </section>
             </aside>
-
+            
             <main class="main">
 
                 <section id="filter" class="filterSection">
@@ -154,7 +161,35 @@
         </section>
         
         <footer class="footer">
-            &copy; 2024 Desarrollado por Fernando Blanco
+            <!-- &copy; 2024 Desarrollado por Fernando Blanco -->
+            <div class="footer-container">
+                <div class="footer-section links">
+                    <h3>Enlaces</h3>
+                    <ul>
+                        <li><a href="index.html">Inicio</a></li>
+                        <li><a href="#">Servicios</a></li>
+                        <li><a href="#">Portafolio</a></li>
+                        <li><a href="contact.html">Contacto</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section social">
+                    <h3>Síguenos</h3>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fa-brands fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section about">
+                    <h3>Sobre Nosotros</h3>
+                    <p>Somos un equipo dedicado a crear experiencias digitales innovadoras, con pasión por el diseño y la funcionalidad.</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Pokedex. Todos los derechos reservados.</p>
+            </div>
         </footer>
     </div>    
 </body>

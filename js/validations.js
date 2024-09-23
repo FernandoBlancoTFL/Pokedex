@@ -8,37 +8,52 @@ document.addEventListener('DOMContentLoaded', function() {
     const gender = document.getElementsByName('gender');
     const rating = document.getElementsByName('rating');
     const email = document.getElementById('email');
+    const email2 = document.getElementById('email2');
     const comment = document.getElementById('comment');
     const cancelButton = document.querySelector('.cancel');
     const resetButton = document.querySelector('.reset');
+    let flag = 0;
 
     // Elementos del cuadro de diálogo personalizado y los botones
     const customConfirm = document.getElementById('custom-confirm');
     const confirmYes = document.getElementById('confirm-yes');
     const confirmNo = document.getElementById('confirm-no');
 
+    // Verifica si los elementos existen
+    // if (!firstName || !lastName || !birthdate || !gender || !rating || !comment) {
+    //     console.error('Error: uno o más elementos del formulario no se encontraron.');
+    //     return;  // Detén la ejecución si algún elemento no existe
+    // }
+
     form.addEventListener('submit', function(event) {
         
         // Previene el envío del formulario para poder validar los datos primero (se queda estático)
         event.preventDefault();
-        
-        // Valida que todos los campos obligatorios no estén vacíos
-        if (!validateEmptyField(firstName.value, 'Nombre')) return;
-        if (!validateEmptyField(lastName.value, 'Apellido')) return;
-        if (!validateEmptyField(birthdate.value, 'Fecha de Nacimiento')) return;
-        if (!validateSelection(gender, 'Sexo')) return;
-        if (!validateSelection(rating, 'Valoración de la página')) return;
+
+        if (firstName && lastName && birthdate && gender && rating && comment) {
+            // Valida que los campos obligatorios no estén vacíos
+            if (!validateEmptyField(firstName.value, 'Nombre')) return;
+            if (!validateEmptyField(lastName.value, 'Apellido')) return;
+            if (!validateEmptyField(birthdate.value, 'Fecha de Nacimiento')) return;
+            if (!validateSelection(gender, 'Sexo')) return;
+            if (!validateSelection(rating, 'Valoración de la página')) return;
+            
+            // Validación de nombre y apellido (solo letras)
+            if (!validateNameSurname(firstName.value, 'Nombre')) return;
+            if (!validateNameSurname(lastName.value, 'Apellido')) return;
+
+            // Validar formato de la fecha de nacimiento
+            if (!validateBirthdate(birthdate.value)) return;
+        } else {
+            flag = 1;
+        }
+
+        // Validaciones del email (se ejecutan siempre)
         if (!validateEmptyField(email.value, 'Email')) return;
-
-        // Validación formato del nombre y apellido (solo letras)
-        if (!validateNameSurname(firstName.value, 'Nombre')) return;
-        if (!validateNameSurname(lastName.value, 'Apellido')) return;
-
-        // Valida que el formato de la fecha de nacimiento sea 'dd-mm-yyyy'
-        if (!validateBirthdate(birthdate.value)) return;
-
-        // Valida el formato del email
         if (!validateEmail(email.value)) return;
+
+        if (!validateEmptyField(email2.value, 'Email')) return;
+        if (!validateEmail(email2.value)) return;
 
         // ****** Recopilar los datos del formulario ******
 
@@ -54,47 +69,51 @@ document.addEventListener('DOMContentLoaded', function() {
             if (option.checked) ratingValue = option.nextSibling.textContent.trim();
         });
 
-        // Recopilar los datos del formulario en una cadena de texto
-        const formData = `
-            Nombre: ${firstName.value}
-            Apellido: ${lastName.value}
-            Fecha de Nacimiento: ${birthdate.value}
-            Sexo: ${genderValue}
-            Valoración de la página: ${ratingValue}
-            Email: ${email.value}
-            Comentario: ${comment.value}
-        `;
+        if(flag == 0){
+            // Recopilar los datos del formulario en una cadena de texto
+            const formData = `
+                Nombre: ${firstName.value}
+                Apellido: ${lastName.value}
+                Fecha de Nacimiento: ${birthdate.value}
+                Sexo: ${genderValue}
+                Valoración de la página: ${ratingValue}
+                Email: ${email.value}
+                Comentario: ${comment.value}
+            `;
 
-        // Mostrar una alerta con los datos del formulario
-        alert('Datos del formulario:\n' + formData);
+            // Mostrar una alerta con los datos del formulario
+            alert('Datos del formulario:\n' + formData);
+        }
 
+        
         console.log("Formulario enviado");
-
         // Si todas las validaciones pasan, muestra un mensaje y envía el formulario
         alert('Formulario enviado correctamente.');
         form.submit();
     });
 
-    // Evento para el botón "Cancelar"
-    cancelButton.addEventListener('click', function() {
-        customConfirm.style.display = 'flex'; // Muestra el cuadro de diálogo personalizado
-    });
+    if (cancelButton || confirmYes || confirmNo || resetButton){
+        // Evento para el botón "Cancelar"
+        cancelButton.addEventListener('click', function() {
+            customConfirm.style.display = 'flex'; // Muestra el cuadro de diálogo personalizado
+        });
 
-    // Evento para el botón "Sí"
-    confirmYes.addEventListener('click', function() {
-        window.history.back(); // Vuelve a la página anterior
-    });
+        // Evento para el botón "Sí"
+        confirmYes.addEventListener('click', function() {
+            window.history.back(); // Vuelve a la página anterior
+        });
 
-    // Evento para el botón "No"
-    confirmNo.addEventListener('click', function() {
-        customConfirm.style.display = 'none'; // Ocultar el cuadro de diálogo
-    });
+        // Evento para el botón "No"
+        confirmNo.addEventListener('click', function() {
+            customConfirm.style.display = 'none'; // Ocultar el cuadro de diálogo
+        });
 
-    // Evento para el botón "Restablecer valores"
-    resetButton.addEventListener('click', function(event) {
-        event.preventDefault(); // Este `preventDefault` evita que el formulario intente enviarse
-        form.reset();
-    });
+        // Evento para el botón "Restablecer valores"
+        resetButton.addEventListener('click', function(event) {
+            event.preventDefault(); // Este `preventDefault` evita que el formulario intente enviarse
+            form.reset();
+        });
+    }
 
     // Función para validar que un campo no esté vacío
     function validateEmptyField(value, field) {
@@ -192,7 +211,9 @@ document.addEventListener('DOMContentLoaded', function() {
         return images[randomIndex]; // Retorna el elemento del array
     }
 
-    // Asignar la imagen aleatoria como fondo del elemento
-    element.style.backgroundImage = `url(${getRandomImage()})`;
+    if(element){
+        // Asignar la imagen aleatoria como fondo del elemento
+        element.style.backgroundImage = `url(${getRandomImage()})`;
+    }
 
 });

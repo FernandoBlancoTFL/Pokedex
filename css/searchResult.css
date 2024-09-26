@@ -563,7 +563,7 @@ label {
   
 
 
-/* Responsive ============================================================== */
+/* =====================================  Responsive  ===================================== */
 
 /* Móviles en orientación horizontal */
 @media (min-width: 480px) {
@@ -630,8 +630,8 @@ label {
         flex: 2;
         font-size: 18px;
         opacity: 0;
-        position: sticky;
-        top: 10px;
+        /* position: sticky;
+        top: 10px; */
     }
 
     .search-button {

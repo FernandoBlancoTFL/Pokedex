@@ -587,23 +587,22 @@ body {
     /* Estilos para el banner publicitario */
     .banner {
         display: flex;
-        position: fixed; /* Fijar el banner en la parte superior */
-        top: 10px; /* Se mantiene pegado en la parte superior de la ventana */
-        left: 50%; /* Centrar horizontalmente el banner */
-        transform: translateX(-50%); /* Ajusta el banner para que esté perfectamente centrado */
-        width: 30%; /* El banner ocupará el 30% del ancho de la pantalla */
+        position: fixed;
+        top: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 30%;
         height: 85px;
-        justify-content: center; /* Centrar el contenido dentro del banner */
+        justify-content: center;
         align-items: center;
-        background-color: #f4f4f4; /* Color de fondo del banner */
-        z-index: 1010; /* Asegura que el banner quede por encima de otros elementos */
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra para darle más visibilidad */
+        background-color: #f4f4f4;
+        z-index: 1010;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     }
 
-    /* Opcional: Estilo del texto o contenido del banner */
     .banner p {
         font-size: 1.2em;
-        color: #333; /* Color del texto */
+        color: #333;
         margin: 0;
     }
 

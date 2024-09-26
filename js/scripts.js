@@ -3,7 +3,6 @@ $(document).ready(function () {
     let pokemonCountDetails = 0;
     let selectedPokemons = [];
     let selectedPokemonsDetails = [];
-    let selectedPokemonsDetailsHistory = [];
     let pokemonArray = [];
     let allPkmArray = [];
     let nav = $('#types_nav');
@@ -235,12 +234,11 @@ $(document).ready(function () {
 
         // Guardo los pokes seleccionados en el sessionStorage
 
-        // Recuperar el array de IDs guardados en sessionStorage o inicializar un array vacío si no existe
+        // Recupera el array de IDs guardados en el sessionStorage o inicializa un array vacío si no existe
         let savedPokemonIds = JSON.parse(sessionStorage.getItem('pokemonIds')) || [];
 
-        // Verificar si el ID ya existe para evitar duplicados
+        // Verificar si el ID del poke seleccionado ya existe para evitar duplicados
         if (!savedPokemonIds.includes(pokemonId)) {
-            // Agregar el nuevo ID al array
             savedPokemonIds.push(pokemonId);
 
             // Guardar el array actualizado en sessionStorage
@@ -388,15 +386,14 @@ $(document).ready(function () {
                 tags: "advertising banner",
                 format: "json",
                 nojsoncallback: 1,
-                per_page: 10 // Limita a 10 resultados, por ejemplo
+                per_page: 10 // Límite de 10 resultados 
             },
             success: function(response) {
-                // Obtener un índice aleatorio dentro del rango de fotos devueltas
+                // índice aleatorio dentro del rango de fotos devueltas
                 const randomIndex = Math.floor(Math.random() * response.photos.photo.length);
                 const photo = response.photos.photo[randomIndex];
                 const imgUrl = `https://live.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}_b.jpg`;
     
-                // Mostrar la imagen en el banner
                 $(".banner").html(`<img src="${imgUrl}" alt="Advertisement" />`);
             }
         });
@@ -943,10 +940,6 @@ $(document).ready(function () {
         // Guardo la info del poke en la sessionStorage como un string JSON
         sessionStorage.setItem('pkmShareInfo', JSON.stringify(pokemonInfo));
 
-        // Guardo la info del poke en la sessionStorage (ELIMINAR)
-        // sessionStorage.setItem('pkmShareInfo', pokemonInfo);
-        
-
         //  * BOTÓN PARA COMPARTIR POKEMONES DEL ASIDE *
 
         $buttonSection.find('.detailsButton2').remove();
@@ -1119,18 +1112,18 @@ $(document).ready(function () {
 
         // Recorremos cada Pokémon en el array
         allPkmArray.forEach(pokemon => {
-            // Recorremos cada habilidad del Pokémon
+            // Recorremos cada tipo del Pokémon
             pokemon.types.forEach(type => {
                 const typeName = type.type.name;
 
-                // Si la habilidad aún no está en el array habilidadesUnicas, la agregamos
+                // Si el tipo aún no está en el array pkmsTypes, la agregamos
                 if (!pkmsTypes.includes(typeName)) {
                     pkmsTypes.push(typeName);
                 }
             });
         });
 
-        // Agrego el menu de opciones
+        // Agrego el menu desplegable
 
         // Borro los contenedores del aside
         $section.find('option.optType').remove();
@@ -1150,28 +1143,12 @@ $(document).ready(function () {
             
             $section.append(optionType);
         });
-
-        // Agregar las primeras 5 opciones
-        // pkmsTypes.forEach((type, index) => {
-        //     if (index < 5) {
-        //         let optionType = `<option class="optType">${type}</option>`;
-        //         $section.append(optionType);
-        //     }
-        // });
-
-        // // Crear el resto de las opciones con scroll
-        // if (pkmsTypes.length > 5) {
-        //     pkmsTypes.slice(5).forEach(type => {
-        //         let optionType = `<option class="optType">${type}</option>`;
-        //         $section.append(optionType);
-        //     });
-        // }
     }
 
     function AddfilterPokemonsLegendary(){
         let $section = $('#pokemon-filterOpt2');
 
-        // Agrego el menu de opciones
+        // Agrego el menu desplegable
 
         // Borro los contenedores del aside
         $section.find('option.optType2').remove();

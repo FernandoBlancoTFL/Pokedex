@@ -17,3 +17,11 @@ function initMap() {
         title: 'Catedral de La Plata'
     });
 }
+
+$(document).ready(function () {
+
+});
+
+
+
+

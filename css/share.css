@@ -131,6 +131,48 @@ button[type="submit"]:hover {
     margin: 0;
 }
 
+/* Estilo para el mensaje de error con el icono de alerta */
+.error {
+    color: red;
+    font-size: 0.9rem;
+    /* margin-top: 5px; */
+    margin-bottom: 10px;
+    font-weight: bold;
+    background-color: #ffe6e6;
+    border: 1px solid red;
+    padding: 5px;
+    border-radius: 3px;
+    display: inline-block;
+    max-width: 100%;
+    position: relative;
+}
+
+.error i {
+    margin-right: 5px;
+}
+
+/* Estilo para el campo de input en estado inválido */
+.invalid {
+    border: 2px solid red;
+    animation: shake 0.3s;
+}
+
+/* Animación de vibración (shake) */
+@keyframes shake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    50% { transform: translateX(5px); }
+    75% { transform: translateX(-5px); }
+    100% { transform: translateX(0); }
+}
+
+/* Restaurar el input a su estado normal cuando se hace clic */
+input:focus {
+    border: 2px solid #ccc;
+    background-color: white;
+}
+
+
 /* Responsive ============================================================== */
 
 /* Móviles en orientación horizontal */

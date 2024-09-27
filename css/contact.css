@@ -19,9 +19,8 @@ h1 {
 .main {
     gap: 15px;
     background-color: #f4f4f4;
-    height: 682px;                  /* cambiar? */
+    height: 682px;
 
-    /* margin-bottom: 40px; */
     margin-bottom: 0;
     background-image: url(https://ahost2.bulbagarden.net/content/bulbagarden/images/bg-green-2x-optim.png);
 }
@@ -46,15 +45,11 @@ h1 {
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    /* margin-bottom: 20px; */
     flex: 2;
-    /* text-align: center; */
 }
 
 .map-section {
-    /* display: flex; */
     width: 100%;
-    /* margin-top: 20px; */
 }
 
 #map {
@@ -66,21 +61,17 @@ h1 {
 .footer {
     text-align: center;
     margin-top: 0;
-    /* color: #777; */
 }
 
 footer p {
     font-size: 14px;
 }
 
-
 /* Responsive ============================================================== */
 
 /* Móviles en orientación horizontal */
 @media (min-width: 480px) {
-
-
-
+    
 }
 
 /* Tablets en orientación vertical */
@@ -111,6 +102,5 @@ footer p {
 
 /* Escritorios muy anchos */
 @media (min-width: 1200px) {
-
 
 }

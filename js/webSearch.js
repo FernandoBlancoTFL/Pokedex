@@ -38,7 +38,7 @@ $(document).ready(function () {
     $fairyButton.on('click', () => changeView('fairy'));
 
 
-    // Evento de hacer click en el botón de búsqueda y redirige a searchResult.html
+    // Evento de hacer click en el botón de búsqueda y redirige a index.html
     $searchButton.on('click', function () {
         const searchTerm = $searchInput.val().trim().toLowerCase();
     
@@ -59,7 +59,7 @@ $(document).ready(function () {
         // Almacena el término de búsqueda en sessionStorage
         sessionStorage.setItem('searchTerm', srchTerm);
     
-        // Redirige a searchResult.html
+        // Redirige a index.html
         window.location.href = 'index.html';
     }
 

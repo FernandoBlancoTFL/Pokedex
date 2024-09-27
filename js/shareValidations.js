@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    // Borra todos los errores visibles en el formulario
+    // Borro todos los errores visibles en el formulario
     function clearErrors() {
         $('.error').remove();
     }
@@ -13,7 +13,7 @@ $(document).ready(function () {
     const pokemonName = pkmInfo[0]?.charAt(0).toUpperCase() + pkmInfo[0]?.slice(1).toLowerCase();
     const pokemonID = pkmInfo[1];
 
-    // Si hay datos en sessionStorage, construye el texto formateado y lo agrega al formulario
+    // Si hay datos en sessionStorage, construyo el texto formateado y lo agrego al formulario
     if (pkmInfo.length > 0) {
         const pokemonDesc = pkmInfo[3]?.replace(/\n/g, " ");
 
@@ -25,7 +25,7 @@ $(document).ready(function () {
         textarea.readOnly = true;  // Campo de solo lectura
 
         const resultsContainer = document.getElementById('resultsContainer');
-        resultsContainer.insertBefore(textarea, resultsContainer.firstChild); // Agrega el textarea
+        resultsContainer.insertBefore(textarea, resultsContainer.firstChild);
     }
 
     // Manejo del evento submit
@@ -56,19 +56,18 @@ $(document).ready(function () {
             isValid = false;
         }
 
-        // Verificación de que ambos correos no sean iguales
+        // Verifico de que ambos correos no sean iguales
         if (senderEmail !== '' && receiverEmail !== '' && senderEmail === receiverEmail) {
             showError(document.getElementById('email2'), 'El correo del destinatario no puede ser igual al del emisor.');
             isValid = false;
         }
 
-        // Si el formulario es válido, procede con el envío
+        // Si el formulario es válido, se procede con el envío
         if (isValid) {
             // Construcción del cuerpo del correo
             let emailSubject = encodeURIComponent("¡Te comparto los datos del pokémon!");
             let emailBody = message ? `${message}\n\nDatos del pokémon:\n` : `Datos del pokémon:\n`;
 
-            // Añadir información del Pokémon al cuerpo del correo
             emailBody += `Nombre: ${pokemonName}\nID: #${pokemonID}\nTipo: ${pokemonTypes}\nDescripción: ${pkmInfo[3].replace(/\n/g, " ")}\n\nEnviado desde la Pokédex, por ${senderEmail}`;
             emailBody = encodeURIComponent(emailBody);
 
@@ -89,20 +88,6 @@ $(document).ready(function () {
         return emailPattern.test(email);
     }
 
-    // Función que agrega vibración
-    function addShakeEffect(element) {
-        element.classList.remove('shake'); // Remover para reiniciar la animación
-        void element.offsetWidth; // Forzar reflow para reiniciar la animación
-        element.classList.add('shake'); // Agregar la clase de nuevo
-    }
-
-    // Muestra el mensaje de error debajo del campo correspondiente
-    // function showError(inputId, message) {
-    //     const inputField = $(`#${inputId}`);
-    //     inputField.next('.error').remove();
-    //     inputField.after(`<span class="error" style="color: red;">${message}</span>`);
-    // }
-
     function showError(element, message) {
 
         // Verifico que el elemento exista
@@ -111,22 +96,22 @@ $(document).ready(function () {
             return;
         }
 
-        // Añadir la clase de campo inválido (para el borde rojo y vibración)
+        // Añado la clase de campo inválido (para el borde rojo y vibración)
         element.classList.add('invalid');
     
-        // Crear el mensaje de error si no existe
+        // Creo el div de mensaje de error
         const errorElement = document.createElement('div');
         errorElement.classList.add('error');
         
-        // Añadir el ícono de alerta de Font Awesome
+        // Añado el ícono de alerta de Font Awesome
         errorElement.innerHTML = `<i class="fas fa-exclamation-triangle"></i> ${message}`;
         
-        // Insertar el mensaje de error después del campo
+        // Inserto el mensaje de error después del campo
         if (!element.nextElementSibling || !element.nextElementSibling.classList.contains('error')) {
-            element.parentNode.insertBefore(errorElement, element.nextSibling);
+            element.parentNode.insertBefore(errorElement, element.nextSibling); // Si tiene error, se inserta el div
         }
     
-        // Eliminar el borde rojo y el mensaje de error al hacer clic en el campo
+        // Elimino el borde rojo y el mensaje de error al hacer clic en el campo
         element.addEventListener('focus', () => {
             element.classList.remove('invalid');
             if (element.nextElementSibling && element.nextElementSibling.classList.contains('error')) {

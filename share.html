@@ -62,47 +62,42 @@
             </div>
         </nav>
 
-        <section class="content">
+        <main class="main">
 
-            <main class="main">
+            <div class="container">
+                <h1>Comparte el pokemon</h1>
+                <form id="shareForm">
 
-                <div class="container">
-                    <h1>Comparte el pokemon</h1>
-                    <form id="shareForm">
-
-                        <section class="primarySection">
-                            <div class="emailInputs">
-                                <label for="email">Correo del emisor:</label>
-                                <input type="text" id="email" name="senderEmail" placeholder="correo@mail.com">
-                    
-                                <label for="email">Correo del destinatario:</label>
-                                <input type="text" id="email2" name="receiverEmail" placeholder="correo@mail.com">
-                            </div>
-                            <div class="pkmData">
-                                <label for="sharedResult">Datos del pokemon:</label>
-                                <div id="resultsContainer"></div>
-                            </div>
-                        </section>
-                        
-                        <section class="secondarySection">
-                            <label for="message">Mensaje:</label>
-                            <textarea id="message" name="message" placeholder="Escribe un mensaje (opcional)"></textarea>
-                        </section>
-                        
-            
-                        <div class="button-container">
-                            <button type="submit" id="sendEmailButton">Enviar mail</button>
-                            <button type="button" id="cancelButton">Cancelar</button>
-                        </div>
-                    </form>
-                </div>
+                    <section class="primarySection">
+                        <div class="emailInputs">
+                            <label for="email">Correo del emisor:</label>
+                            <input type="text" id="email" name="senderEmail" placeholder="correo@mail.com">
                 
-            </main>
-
-        </section>
+                            <label for="email">Correo del destinatario:</label>
+                            <input type="text" id="email2" name="receiverEmail" placeholder="correo@mail.com">
+                        </div>
+                        <div class="pkmData">
+                            <label for="sharedResult">Datos del pokemon:</label>
+                            <div id="resultsContainer"></div>
+                        </div>
+                    </section>
+                    
+                    <section class="secondarySection">
+                        <label for="message">Mensaje:</label>
+                        <textarea id="message" name="message" placeholder="Escribe un mensaje (opcional)"></textarea>
+                    </section>
+                    
+        
+                    <div class="button-container">
+                        <button type="submit" id="sendEmailButton">Enviar mail</button>
+                        <button type="button" id="cancelButton">Cancelar</button>
+                    </div>
+                </form>
+            </div>
+            
+        </main>
         
         <footer class="footer">
-            <!-- &copy; 2024 Desarrollado por Fernando Blanco -->
             <div class="footer-container">
                 <div class="footer-section links">
                     <h3>Enlaces</h3>

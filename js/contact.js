@@ -1,27 +1,16 @@
-function initMap() {
-    // const catedralLaPlata = { lat: -34.9214, lng: -57.9544 }; //coordenadas anteriores
+function initLeafletMap() {
+    var map = L.map('map').setView([-34.922883333333, -57.956316666667], 16); // Coordenadas de La Plata
 
-    // Coordenadas de la Catedral de La Plata
-    const catedralLaPlata = {lat:-34.922883333333, lng:-57.956316666667};
+    // Cargo los tiles de OpenStreetMap
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
 
-    // Crear el mapa centrado en la Catedral de La Plata
-    const map = new google.maps.Map(document.getElementById("map"), {
-        zoom: 16,
-        center: catedralLaPlata,
-    });
-
-    // Marcador para la Catedral de La Plata
-    const marker = new google.maps.Marker({
-        position: catedralLaPlata,
-        map: map,
-        title: 'Catedral de La Plata'
-    });
+    // Marcador en la ubicación
+    L.marker([-34.922883333333, -57.956316666667]).addTo(map)
+        .bindPopup('Ubicación de la oficina')
+        .openPopup();
 }
 
-$(document).ready(function () {
-
-});
-
-
-
-
+// Ejecuto la función cuando el DOM esté cargado
+document.addEventListener('DOMContentLoaded', initLeafletMap);

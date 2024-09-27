@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
 
     const form = document.querySelector('form');
-    
+
     const firstName = document.getElementById('first-name');
     const lastName = document.getElementById('last-name');
     const birthdate = document.getElementById('birthdate');
@@ -14,16 +14,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const resetButton = document.querySelector('.reset');
     let flag = 0;
 
-    // Elementos del cuadro de diálogo personalizado y los botones
+    // Elementos del cuadro de diálogo personalizado
     const customConfirm = document.getElementById('custom-confirm');
     const confirmYes = document.getElementById('confirm-yes');
     const confirmNo = document.getElementById('confirm-no');
-
-    // Verifica si los elementos existen
-    // if (!firstName || !lastName || !birthdate || !gender || !rating || !comment) {
-    //     console.error('Error: uno o más elementos del formulario no se encontraron.');
-    //     return;  // Detén la ejecución si algún elemento no existe
-    // }
 
     form.addEventListener('submit', function(event) {
         
@@ -70,7 +64,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
         if(flag == 0){
-            // Recopilar los datos del formulario en una cadena de texto
+            // Recopilo los datos del formulario en una cadena de texto
             const formData = `
                 Nombre: ${firstName.value}
                 Apellido: ${lastName.value}
@@ -81,7 +75,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 Comentario: ${comment.value}
             `;
 
-            // Mostrar una alerta con los datos del formulario
+            // Muestro una alerta con los datos del formulario
             alert('Datos del formulario:\n' + formData);
         }
 
@@ -98,14 +92,14 @@ document.addEventListener('DOMContentLoaded', function() {
             customConfirm.style.display = 'flex'; // Muestra el cuadro de diálogo personalizado
         });
 
-        // Evento para el botón "Sí"
+        // Evento para el botón Sí
         confirmYes.addEventListener('click', function() {
             window.history.back(); // Vuelve a la página anterior
         });
 
-        // Evento para el botón "No"
+        // Evento para el botón No
         confirmNo.addEventListener('click', function() {
-            customConfirm.style.display = 'none'; // Ocultar el cuadro de diálogo
+            customConfirm.style.display = 'none'; // So oculta el cuadro de diálogo
         });
 
         // Evento para el botón "Restablecer valores"
@@ -152,16 +146,14 @@ document.addEventListener('DOMContentLoaded', function() {
         // La fecha que llega está en formato 'aaaa-mm-dd'
         const regexDate = /^\d{4}-\d{2}-\d{2}$/;
     
-        // Verificar si la fecha ingresada coincide con el formato aaaa-mm-dd
+        // Verifico si la fecha ingresada coincide con el formato aaaa-mm-dd
         if (!regexDate.test(inputDate)) {
             alert('La fecha de nacimiento debe tener el formato aaaa-mm-dd.');
             return false;
         }
     
-        // Dividir la fecha en partes: aaaa, mm, dd y las coloca en un array
+        // Divido la fecha en partes: aaaa, mm, dd y las coloca en un array
         const [year, month, day] = inputDate.split('-');
-
-        //console.log("mes anterior: " + (month - 1));
     
         // Verificar que las partes de la fecha son válidas
         const date = new Date(year, month - 1, day);
@@ -175,13 +167,13 @@ document.addEventListener('DOMContentLoaded', function() {
             return false;
         }
     
-        // Convertir la fecha de aaaa-mm-dd a dd-mm-aaaa
+        // Convierto la fecha de aaaa-mm-dd a dd-mm-aaaa
         const convertedDate = `${day}-${month}-${year}`;
     
         // Expresión regular para validar el formato dd-mm-aaaa
         const regexConverted = /^\d{2}-\d{2}-\d{4}$/;
     
-        // Verifica que la fecha convertida coincide con el formato dd-mm-aaaa
+        // Verifico que la fecha convertida coincide con el formato dd-mm-aaaa
         if (!regexConverted.test(convertedDate)) {
             alert('La fecha de nacimiento convertida no tiene el formato dd-mm-aaaa.');
             return false;
@@ -212,7 +204,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     if(element){
-        // Asignar la imagen aleatoria como fondo del elemento
+        // Asigno la imagen aleatoria como fondo del elemento
         element.style.backgroundImage = `url(${getRandomImage()})`;
     }
 

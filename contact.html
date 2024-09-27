@@ -5,25 +5,20 @@
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
     <title>Pokédex Pokémon</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <link rel="icon" href="/img/pokeball.png" type="image/png">
 
+    <link rel="icon" href="/img/pokeball.png" type="image/png">
     <link rel="stylesheet" href="/css/style.css" type="text/css" media="screen">
     <link rel="stylesheet" href="/css/searchResult.css" type="text/css" media="screen">
-    <link rel="stylesheet" href="/css/teamHistory.css" type="text/css" media="screen">
     <link rel="stylesheet" href="/css/contact.css" type="text/css" media="screen">
     <link rel="stylesheet" href="/css/footer.css" type="text/css" media="screen">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    
-    <!-- <script async src="https://maps.googleapis.com/maps/api/js?key=&callback=console.debug&libraries=maps,marker&v=beta"></script> -->
-     
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" /> 
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script src='js/webSearch.js'></script>
     <script src='js/contact.js'></script>
     <script src='js/scripts.js'></script>
-    
-    <!-- <script async defer src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap"></script> -->
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjnZKue66A5quiP4jpe-GsUhjFtii4LKQ&callback=initMap"></script>
-
 </head>
 <body>
     <div class="wrapper">
@@ -74,7 +69,6 @@
                 <section class="sectionBox">
                     <h3>Datos del Desarrollador:</h3>
                     <section class="contact-info">
-                    
                         <p><strong>Nombre:</strong> Fernando Blanco</p>
                         <p><strong>Email:</strong> Fernando.blanco004@gmail.com</p>
                         <p><strong>Teléfono:</strong> +54 11 6324 5824</p>
@@ -82,7 +76,6 @@
                         <p><strong>Ubicación:</strong> La Plata, Bs As, Argentina</p>
                     </section>
                 </section>
-                
             
                 <section class="sectionBox2">
                     <h3>Ubicación de la oficina en el Mapa:</h3>
@@ -90,13 +83,11 @@
                         <div id="map"></div>
                     </section>
                 </section>
-                
 
             </main>
         </section>
         
         <footer class="footer">
-            <!-- &copy; 2024 Desarrollado por Fernando Blanco -->
             <div class="footer-container">
                 <div class="footer-section links">
                     <h3>Enlaces</h3>

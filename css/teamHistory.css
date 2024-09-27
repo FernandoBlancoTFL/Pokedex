@@ -12,11 +12,11 @@
 }
 
 .pokemon-entry:hover {
-    border-color: green; /* Cambia el borde a rojo al pasar el mouse */
+    border-color: green;
 }
 
 .pokemon-entry:active {
-    border-color: green; /* Mantiene el borde rojo mientras se hace clic */
+    border-color: green;
 }
 
 
@@ -26,7 +26,6 @@
     align-items: center;
 
     gap: 5px;
-    /* background-color: #444; */
     background-image: url("/img/body_bg.png");
     border: 2px solid #ccc;
     padding: 10px;
@@ -66,8 +65,6 @@
 
 /* Móviles en orientación horizontal */
 @media (min-width: 480px) {
-    
-
 
 }
 
@@ -77,8 +74,6 @@
     .teamContainer {
         flex-flow: row wrap;
     }
-
-    
 
     .team {
         width: 30%;
@@ -97,6 +92,5 @@
 /* Escritorios muy anchos */
 @media (min-width: 1200px) {
     
-
 }
 

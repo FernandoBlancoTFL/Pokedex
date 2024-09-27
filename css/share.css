@@ -135,7 +135,6 @@ button[type="submit"]:hover {
 .error {
     color: red;
     font-size: 0.9rem;
-    /* margin-top: 5px; */
     margin-bottom: 10px;
     font-weight: bold;
     background-color: #ffe6e6;
@@ -157,7 +156,6 @@ button[type="submit"]:hover {
     animation: shake 0.3s;
 }
 
-/* Animación de vibración (shake) */
 @keyframes shake {
     0% { transform: translateX(0); }
     25% { transform: translateX(-5px); }

@@ -115,27 +115,17 @@
     .footer-section:last-child {
         border-right: none; /* Quita el borde derecho del último contenedor */
     }
-
-    /* Estilos de la sección de redes sociales */
-    /* .social-links {
-        display: flex;
-        justify-content: space-between;
-    } */
-
 }
 
 /* Tablets en orientación vertical o escritorios normales */
 @media (min-width: 1024px) {
-
     .teamContainer {
         width: 80%;
     }
-
 }
 
 /* Escritorios muy anchos */
 @media (min-width: 1200px) {
-
-
+    
 }
 

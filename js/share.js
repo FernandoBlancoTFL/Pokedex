@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const shareForm = document.getElementById('shareForm');
     const cancelButton = document.getElementById('cancelButton');
 
-    // Recupera el array desde sessionStorage y lo parseo a objeto JavaScript
+    // Obtengo el array desde sessionStorage y lo parseo a objeto JavaScript
     const pkmInfo = JSON.parse(sessionStorage.getItem('pkmShareInfo')) || [];
 
     // Convierto la primera letra de cada tipo a mayúscula
@@ -29,9 +29,8 @@ document.addEventListener('DOMContentLoaded', function() {
         textarea.value = formattedResult;
         textarea.readOnly = true;  // textarea de solo lectura
 
-        // Añado el textarea al formulario
         const resultsContainer = document.getElementById('resultsContainer');
-        resultsContainer.insertBefore(textarea, resultsContainer.firstChild); // Agrego el textarea al conenedor
+        resultsContainer.insertBefore(textarea, resultsContainer.firstChild); // Agrego el textarea al contenedor
     }
 
     // Evento para enviar el formulario
@@ -44,8 +43,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Validación para asegurarse de que ambos emails tengan valor, si no tienen valor termina la ejecucion
         if (!email || !receiverEmail) {
-            //alert("Por favor, rellena ambos correos electrónicos.");
-            return; // Detener la ejecución si los emails están vacíos
+            return;
         } else {
             if (!validateEmail(email)) return;
             if (!validateEmail(receiverEmail)) return;
@@ -81,7 +79,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         emailBody = encodeURIComponent(emailBody);
 
-        // Redirigir a la apertura del cliente de correo
+        // Redirijo al cliente de correo
         const gmailLink = `https://mail.google.com/mail/?view=cm&fs=1&to=${receiverEmail}&su=${emailSubject}&body=${emailBody}`;
         window.open(gmailLink, '_blank');
     });
@@ -89,7 +87,6 @@ document.addEventListener('DOMContentLoaded', function() {
     function validateEmail(email) {
         const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!regex.test(email.trim())) {
-            //alert('El email debe tener un formato correcto.');
             return false;
         }
         return true;

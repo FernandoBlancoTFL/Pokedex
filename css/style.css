@@ -445,10 +445,6 @@ body {
         flex-direction: column;
     }
 
-    .search-button {
-        background-color: red;
-    }
-
     .pokemons {
         max-width: 500px;
     }
@@ -498,10 +494,6 @@ body {
         flex: 3;
     }
 
-    .search-button {
-        background-color: green;
-    }
-
     .pokemons {
         max-width: 70%;
     }
@@ -523,10 +515,6 @@ body {
 
 /* Tablets en orientación vertical o escritorios normales */
 @media (min-width: 1024px) {
-    .search-button {
-        background-color: blue;
-    }
-
     .pokemon {
         overflow: hidden; /* Oculta cualquier contenido que se desborde durante el zoom */
         transition: transform 0.3s ease-in-out; /* Transición suave para el zoom */

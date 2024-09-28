@@ -541,17 +541,12 @@ label {
     margin-right: 10px;
 }
 
-
 /* =====================================  Responsive  ===================================== */
 
 /* Móviles en orientación horizontal */
 @media (min-width: 480px) {
     .header {
         flex-direction: column;
-    }
-
-    .search-button {
-        background-color: red;
     }
 
     .pokemons {
@@ -609,10 +604,6 @@ label {
         flex: 2;
         font-size: 18px;
         opacity: 0;
-    }
-
-    .search-button {
-        background-color: green;
     }
 
     .pokemons {
@@ -689,10 +680,6 @@ label {
 
 /* Tablets en orientación vertical o escritorios normales */
 @media (min-width: 1024px) {
-    .search-button {
-        background-color: blue;
-    }
-
     .pokemon {
         overflow: hidden; /* Oculta cualquier contenido que se desborde durante el zoom */
         transition: transform 0.3s ease-in-out; /* Transición suave para el zoom */

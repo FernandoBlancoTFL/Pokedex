@@ -115,11 +115,11 @@ $(document).ready(function () {
                 }
             });
         });
-    
-        // Espera que todas las solicitudes AJAX terminen
-        $.when(...requests).done(function() {
-            pokemonArray2.sort((a, b) => a.id - b.id);
 
+        Promise.all(requests)
+        .then(() => {
+            pokemonArray2.sort((a, b) => a.id - b.id);
+            // Añadimos cada Pokémon a la interfaz
             pokemonArray2.forEach(pokemon => {
                 addPokemonCard(pokemon);
             });

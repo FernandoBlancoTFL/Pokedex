@@ -19,39 +19,30 @@ $(document).ready(function () {
     loadSavedPokemons();
     loadAd();
 
-    // ----------------------------------  Eventos  ---------------------------------- //
-
-    // Evento de hacer click en el logo
     $logoButton.on('click', function () {
         window.location.href = "index.html";
     });
 
-    // Evento de hacer click en otro enlace
     $linkButton.on('click', function () {
         $(".paginationContainer").css('display','none');
     });
 
-    // Evento de hacer click en encuesta
     $surveyButton.on('click', function () {
         window.location.href = "survey.html";
     });
 
-    // Evento de hacer click en equipo pokemon
     $teamHistoryButton.on('click', function () {
         window.location.href = "teamHistory.html";
     });
 
-    // Evento de hacer click en historial
     $historyButton.on('click', function () {
         window.location.href = "infoHistory.html";
     });
 
-    // Evento de hacer click en contacto
     $contactButton.on('click', function () {
         window.location.href = "contact.html";
     });
 
-    // Evento para el botón + info
     $(document).on('click', 'div.pokemon button', function() {
         let $this = $(this);
         let $pokemon = $this.closest('.pokemon');
@@ -70,7 +61,6 @@ $(document).ready(function () {
             pokemonCountDetails++;
             nav.css('position', 'relative');
             
-            // Si el pokemon no está en la lista (busca por id), agrega el nombre, la imagen y el ID
             if (!selectedPokemonsDetails.some(pokemon => pokemon.id === pokemonId)) {
                 selectedPokemonsDetails = [];
                 selectedPokemonsDetails.push({name: pokemonName, img: pokemonImg, id: pokemonId});
@@ -80,16 +70,11 @@ $(document).ready(function () {
         updatePokemonDetail(pokemonId);
     });
 
-    // ----------------------------------  Funciones  ---------------------------------- //
 
     function loadSavedPokemons() {
-        // Recupero la lista de IDs de Pokémon guardada en sessionStorage, si no hay nada creo una vacía
         let savedPokemonIds = JSON.parse(sessionStorage.getItem('pokemonIds')) || [];
-
-        // Limpiamos las cards antes de cargar nuevas
         clearCards();
     
-        // Si la lista está vacía, imprimo mensaje
         if (savedPokemonIds.length === 0) {
             console.log("No hay Pokémon guardados.");
             let msg = '<p>No hay historial de pokemones.</p>'
@@ -97,9 +82,8 @@ $(document).ready(function () {
             return;
         }
     
-        let pokemonArray2 = [];  // Reinicio el array donde se almacenaran los Pokémon
+        let pokemonArray2 = [];
     
-        // Hacemos una solicitud AJAX por cada ID de Pokémon
         let requests = savedPokemonIds.map(id => {
             return $.ajax({
                 url: `https://pokeapi.co/api/v2/pokemon/${parseInt(id)}`,
@@ -107,7 +91,6 @@ $(document).ready(function () {
                 dataType: 'json',
                 success: function(pokemonData) {
                     pokemonArray.push(pokemonData);
-                    // Agregamos los datos de cada Pokémon al array (sin mostrar las cards aún)
                     pokemonArray2.push(pokemonData);
                 },
                 error: function() {
@@ -119,7 +102,6 @@ $(document).ready(function () {
         Promise.all(requests)
         .then(() => {
             pokemonArray2.sort((a, b) => a.id - b.id);
-            // Añadimos cada Pokémon a la interfaz
             pokemonArray2.forEach(pokemon => {
                 addPokemonCard(pokemon);
             });
@@ -139,11 +121,9 @@ $(document).ready(function () {
             </div>
         `;
 
-        // Agrega la card al contenedor principal
         $pokemonContainer.append(card);
     }
 
-    // Función para actualizar el texto del total de Pokémon en la página.
     function updatePokemonInfo() {
         if (pokemonCountDetails > 0) {
             if(pokemonCount > 0){
@@ -154,27 +134,25 @@ $(document).ready(function () {
         }
     }
 
-    // Función para actualizar el contenido del aside con los Pokémon seleccionados.
     function updatePokemonDetail(idPokemon) {
         let $section = $('#pkmDetailContainer');
         let value = 0;
 
-        // Borro los contenedores del aside
         $section.find('section.pokemon_MainDetail_Container').remove();
         $section.find('section.pokemon_MainDetail').remove();
         $section.find('section.pokemon_SecondaryDetail').remove();
         $section.find('section.pokemon_EvolutionDetail').remove();
 
-        const foundPokemon = pokemonArray.find(pokemon => pokemon.id == idPokemon); // foundPokemon tiene todos los datos del poke a mostrar
+        const foundPokemon = pokemonArray.find(pokemon => pokemon.id == idPokemon);
 
         if(foundPokemon.types.length == 2){
             value = 1;
         }
 
-        pokemonSpecieAJAX(foundPokemon.name, 0); //0 para traer categoría del poke
-        pokemonSpecieAJAX(foundPokemon.name, 1); //1 para obtener la descripción del poke
-        pokemonSpecieAJAX(foundPokemon.name, 2); //2 para obtener el sexo del poke
-        pokemonSpecieAJAX(foundPokemon.name, 3); //3 para obtener el habitat del poke
+        pokemonSpecieAJAX(foundPokemon.name, 0);
+        pokemonSpecieAJAX(foundPokemon.name, 1);
+        pokemonSpecieAJAX(foundPokemon.name, 2);
+        pokemonSpecieAJAX(foundPokemon.name, 3);
         
         let MainDetailSection = `
             <section class="pokemon_MainDetail_Container ${foundPokemon.types[0].type.name}">
@@ -289,7 +267,7 @@ $(document).ready(function () {
         $section.append(MainDetailSection);
         $section.append(SecondaryDetailSection);
 
-        pokemonSpecieAJAX(foundPokemon.name, 4, function(description) { //4 para obtener la descripción del poke
+        pokemonSpecieAJAX(foundPokemon.name, 4, function(description) {
             if (description) {
                 addButtonsInfo(foundPokemon.name, idPokemon, foundPokemon.types, description); 
             } else {
@@ -305,7 +283,6 @@ $(document).ready(function () {
 
         sessionStorage.setItem('pkmShareInfo', JSON.stringify(pokemonInfo));
 
-        //  * BOTÓN PARA COMPARTIR POKEMONES DEL ASIDE *
 
         $buttonSection.find('.detailsButton2').remove();
 
@@ -315,12 +292,9 @@ $(document).ready(function () {
 
         $buttonSection.append(roundButton2);
 
-        // Evento para enviar al usuario a la vista compartir
         $('.btn2').on('click', function() {
             window.location.href = "share.html";
         });
-
-        //  * BOTÓN PARA ELIMINAR POKEMONES DEL ASIDE *
 
         $buttonSection.find('.detailsButton').remove();
 
@@ -330,7 +304,6 @@ $(document).ready(function () {
 
         $buttonSection.append(roundButton);
 
-        // Añade un evento para eliminar la selección cuando se presione el botón.
         $('.detailsButton').on('click', function() {
             selectedPokemonsDetails = [];
             pokemonCountDetails = 0;
@@ -347,7 +320,7 @@ $(document).ready(function () {
         });
     }
 
-    function clearCards(){ // Borra las card del main
+    function clearCards(){
         $pokemonContainer.empty();
     }
 
@@ -358,32 +331,26 @@ $(document).ready(function () {
             success: function(data) {
 
                 if(type == 0){
-                    // Filtro para obtener la categoría en español
                     const genera = data.genera.find(gen => gen.language.name === "es");
 
-                    // Agrego la categoría al elemento
                     $('#pokemonGenus').text(genera.genus);
                 }
 
                 if(type == 1){
-                    // Obtengo las descripciones del Pokémon
                     const flavorTexts = data.flavor_text_entries;
 
-                    // Filtro las descripciones en español
                     const descriptionES = flavorTexts.find(entry => entry.language.name === "es");
 
                     $('#pkmDescription').text(descriptionES.flavor_text);
                 }
 
                 if(type == 2){
-                    // Verifico si el Pokémon tiene género o no
                     const genderRate = data.gender_rate;
                     let male, female, noGender;
 
                     if (genderRate === -1) {
                         noGender = "Sin género";
                     } else {
-                        // Calculo el porcentaje de macho y hembra
                         const femalePercent = (genderRate / 8) * 100;
                         const malePercent = 100 - femalePercent;
 
@@ -393,18 +360,15 @@ $(document).ready(function () {
 
                     $('#pokemonSexMale').text(male);
                     $('#pokemonSexFemale').text(female);
-                            // **Faltaría mandar en caso de que no tenga género **
                 }
 
                 if(type == 3){
-                    // Obtengo el habitad del Pokémon
                     const habitatText = data.habitat;
 
                     $('#habitat').text(habitatText.name);
                 }
 
                 if(type == 4){
-                    // Obtenemos las descripciones del Pokémon
                     const flavorTexts = data.flavor_text_entries;
                     const descriptionES = flavorTexts.find(entry => entry.language.name === "es");
 
@@ -413,8 +377,6 @@ $(document).ready(function () {
                     } else {
                         result = "Descripción no disponible en español.";
                     }
-    
-                    // Llamamos al callback con el resultado
                     callback(result);
                 }
 
@@ -435,7 +397,7 @@ $(document).ready(function () {
                 tags: "advertising banner",
                 format: "json",
                 nojsoncallback: 1,
-                per_page: 10 // Limite de 10 resultados
+                per_page: 10
             },
             success: function(response) {
                 const randomIndex = Math.floor(Math.random() * response.photos.photo.length);

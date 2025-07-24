@@ -95,12 +95,10 @@ footer p {
     }
 }
 
-/* Tablets en orientación vertical o escritorios normales */
 @media (min-width: 1024px) {
 
 }
 
-/* Escritorios muy anchos */
 @media (min-width: 1200px) {
 
 }

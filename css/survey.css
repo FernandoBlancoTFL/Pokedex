@@ -11,9 +11,6 @@
     background-image: url(https://ahost2.bulbagarden.net/content/bulbagarden/images/bg-green-2x-optim.png);
 }
 
-
-/* Estilo general del formulario */
-
 .survey {
     padding: 15px;
 }
@@ -45,7 +42,6 @@ form label {
     color: #333;
 }
 
-/* Contenedor del "Sexo" y "Valoración de la página" */
 .form-group {
     display: flex;
     flex-direction: column;
@@ -85,7 +81,6 @@ form textarea {
     font-size: 16px;
 }
 
-/* Contenedor de los botones */
 .button-group {
     display: flex;
     justify-content: space-between;
@@ -125,7 +120,6 @@ form textarea {
     background-color: #fb8c00;
 }
 
-/* Estilo para el cuadro de diálogo personalizado */
 #custom-confirm {
     position: fixed;
     top: 0;

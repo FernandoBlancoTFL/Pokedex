@@ -2,14 +2,10 @@
     display: block;
 }
 
-/* Responsive ============================================================== */
-
-/* Móviles en orientación horizontal */
 @media (min-width: 480px) {
 
 }
 
-/* Tablets en orientación vertical */
 @media (min-width: 768px) {
     .main {
         flex: 4;
@@ -30,12 +26,10 @@
     }
 }
 
-/* Tablets en orientación vertical o escritorios normales */
 @media (min-width: 1024px) {
     
 }
 
-/* Escritorios muy anchos */
 @media (min-width: 1200px) {
     
 }

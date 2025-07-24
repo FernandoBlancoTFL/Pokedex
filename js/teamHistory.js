@@ -5,7 +5,6 @@ $(document).ready(function () {
         const savedTeams = JSON.parse(localStorage.getItem('pokemonTeams')) || [];
         const teamsContainer2 = document.getElementById('saved-teams-container');
     
-        // Limpiamos el contenedor antes de cargar los equipos
         teamsContainer2.innerHTML = '';
     
         if (savedTeams.length === 0) {
@@ -36,7 +35,7 @@ $(document).ready(function () {
                 deleteButton.innerText = 'Eliminar equipo';
                 deleteButton.classList.add('delete-button');
                 deleteButton.addEventListener('click', function() {
-                    removeTeam(index); // Si se hace click, llama a la función de eliminar equipo
+                    removeTeam(index);
                 });
     
                 teamElement.appendChild(deleteButton);
@@ -56,19 +55,16 @@ $(document).ready(function () {
     
             $image.css({
                 'transform': 'rotate(' + rotateAngle + 'deg)',
-                'transition': 'transform 0.2s ease-in-out' // Transición suave
+                'transition': 'transform 0.2s ease-in-out'
             });
-            // Cambio de dirección después de la animación
             direction *= -1;
-        }, 500); // Intervalo de 500 ms
+        }, 500);
     }
 
     function removeTeam(index) {
-        // Obtengo los equipos guardados del localStorage
         let savedTeams = JSON.parse(localStorage.getItem('pokemonTeams')) || [];
-        savedTeams.splice(index, 1); // Elimino el equipo seleccionado del array
+        savedTeams.splice(index, 1);
     
-        // Actualizar el localStorage
         localStorage.setItem('pokemonTeams', JSON.stringify(savedTeams));
     
         loadSavedTeams();
@@ -83,10 +79,9 @@ $(document).ready(function () {
                 tags: "advertising banner",
                 format: "json",
                 nojsoncallback: 1,
-                per_page: 10 // Limite de 10 resultados
+                per_page: 10
             },
             success: function(response) {
-                // Índice aleatorio dentro del rango de fotos devueltas
                 const randomIndex = Math.floor(Math.random() * response.photos.photo.length);
                 const photo = response.photos.photo[randomIndex];
                 const imgUrl = `https://live.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}_b.jpg`;
